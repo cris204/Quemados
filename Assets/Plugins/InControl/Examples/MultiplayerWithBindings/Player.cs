@@ -10,7 +10,7 @@ namespace MultiplayerWithBindingsExample
 	//
 	public class Player : MonoBehaviour
 	{
-		public PlayerActions Actions { get; set; }
+		public IncontrolPlayerActions Actions { get; set; }
 
 		Renderer cachedRenderer;
 

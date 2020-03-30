@@ -24,15 +24,15 @@
 
 		List<Player> players = new List<Player>( maxPlayers );
 
-		PlayerActions keyboardListener;
-		PlayerActions joystickListener;
+		IncontrolPlayerActions keyboardListener;
+		IncontrolPlayerActions joystickListener;
 
 
 		void OnEnable()
 		{
 			InputManager.OnDeviceDetached += OnDeviceDetached;
-			keyboardListener = PlayerActions.CreateWithKeyboardBindings();
-			joystickListener = PlayerActions.CreateWithJoystickBindings();
+			keyboardListener = IncontrolPlayerActions.CreateWithKeyboardBindings();
+			joystickListener = IncontrolPlayerActions.CreateWithJoystickBindings();
 		}
 
 
@@ -66,7 +66,7 @@
 		}
 
 
-		bool JoinButtonWasPressedOnListener( PlayerActions actions )
+		bool JoinButtonWasPressedOnListener( IncontrolPlayerActions actions )
 		{
 			return actions.Green.WasPressed || actions.Red.WasPressed || actions.Blue.WasPressed || actions.Yellow.WasPressed;
 		}
@@ -147,7 +147,7 @@
 				{
 					// Create a new instance and specifically set it to listen to the
 					// given input device (joystick).
-					var actions = PlayerActions.CreateWithJoystickBindings();
+					var actions = IncontrolPlayerActions.CreateWithJoystickBindings();
 					actions.Device = inputDevice;
 
 					player.Actions = actions;

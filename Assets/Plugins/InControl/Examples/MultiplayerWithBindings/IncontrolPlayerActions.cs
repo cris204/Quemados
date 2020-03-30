@@ -3,7 +3,7 @@
 	using InControl;
 
 
-	public class PlayerActions : PlayerActionSet
+	public class IncontrolPlayerActions : PlayerActionSet
 	{
 		public PlayerAction Green;
 		public PlayerAction Red;
@@ -16,7 +16,7 @@
 		public PlayerTwoAxisAction Rotate;
 
 
-		public PlayerActions()
+		public IncontrolPlayerActions()
 		{
 			Green = CreatePlayerAction( "Green" );
 			Red = CreatePlayerAction( "Red" );
@@ -30,9 +30,9 @@
 		}
 
 
-		public static PlayerActions CreateWithKeyboardBindings()
+		public static IncontrolPlayerActions CreateWithKeyboardBindings()
 		{
-			var actions = new PlayerActions();
+			var actions = new IncontrolPlayerActions();
 
 			actions.Green.AddDefaultBinding( Key.A );
 			actions.Red.AddDefaultBinding( Key.S );
@@ -48,9 +48,9 @@
 		}
 
 
-		public static PlayerActions CreateWithJoystickBindings()
+		public static IncontrolPlayerActions CreateWithJoystickBindings()
 		{
-			var actions = new PlayerActions();
+			var actions = new IncontrolPlayerActions();
 
 			actions.Green.AddDefaultBinding( InputControlType.Action1 );
 			actions.Red.AddDefaultBinding( InputControlType.Action2 );
