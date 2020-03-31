@@ -7,14 +7,14 @@ public class PlayerController : MonoBehaviour
 {
     private float horizontal;
     private float vertical;
-    private Vector2 inputDirection;
-    private Rigidbody2D rb;
-    private float speed=100;
+    private Vector3 inputDirection;
+    private Rigidbody rb;
+    [SerializeField] private float speed=300;
     public PlayerActions Actions { get; set; }
     public bool usingKeyboard=false;
     void Awake()
     {
-        this.rb = this.GetComponent<Rigidbody2D>();
+        this.rb = this.GetComponent<Rigidbody>();
     }
 
     private void Start()
@@ -73,7 +73,7 @@ public class PlayerController : MonoBehaviour
     {
         horizontal = this.Actions.move.X;
         vertical = this.Actions.move.Y;
-        inputDirection = new Vector2(horizontal, vertical).normalized;
+        inputDirection = new Vector3(horizontal,0, vertical).normalized;
         rb.velocity = inputDirection * speed * Time.deltaTime;
 
     }
