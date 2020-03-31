@@ -9,9 +9,9 @@ public class AttackComponent : MonoBehaviour
 
     public void Attack(PowerType powerType)
     {
-        GameObject prefab = Instantiate(ResourcesManager.Instance.GetPowerEffectPrefab(powerType));
+        PowersBehaviour power = ResourcesManager.Instance.GetPowerBehaviourPrefab(powerType);
+        GameObject prefab = Instantiate(power.gameObject);
         prefab.transform.position = this.spawnPointGO.transform.position;
-        PowersBehaviour power = prefab.GetComponent<PowersBehaviour>();
         power.SetPowerData(powerType);
         power.StartAttack();
     }

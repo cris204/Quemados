@@ -9,8 +9,12 @@ public class BasicTrowBallBehaviour : PowersBehaviour
     protected override void Init()
     {
         if (!this.isInit) {
+            this.rigidbody = GetComponent<Rigidbody>();
+            this.collider = GetComponent<Collider>();
+
             this.isInit = true;
-            this.effectPrefab = ResourcesManager.Instance.GetPowerEffectPrefab(this.powerType);
+            BasicThrowBallEffect prefab = (BasicThrowBallEffect)ResourcesManager.Instance.GetPowerEffectPrefab(this.powerType);
+            this.effectPrefab = Instantiate(prefab.gameObject);
             this.effectPrefab.transform.SetParent(this.gameObject.transform);
             this.effectPrefab.transform.localPosition = Vector3.zero;
             this.m_Effect = this.effectPrefab.GetComponent<BasicThrowBallEffect>();

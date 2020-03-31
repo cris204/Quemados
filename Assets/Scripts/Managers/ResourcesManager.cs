@@ -5,13 +5,15 @@ using UnityEngine;
 public class ResourcesManager : Singleton<ResourcesManager>
 {
     private string basePath = "Resource";
-    public GameObject GetPowerBehaviourPrefab(PowerType name)
+    public PowersBehaviour GetPowerBehaviourPrefab(PowerType name)
     {
-        return Resources.Load("Prefabs/Powers/PowersEffect" + name.ToString() + "Behaviour") as GameObject;
+        PowersBehaviour objectLoaded = Resources.Load<PowersBehaviour>("Prefabs/Powers/PowersBehaviour/" + name.ToString() + "Behaviour");
+        return objectLoaded;
     }
 
-    public GameObject GetPowerEffectPrefab(PowerType name)
+    public PowersEffect GetPowerEffectPrefab(PowerType name)
     {
-        return Resources.Load("Prefabs/Powers/PowersEffect" + name.ToString() + "Effect") as GameObject;
+        PowersEffect objectLoaded = Resources.Load<PowersEffect>("Prefabs/Powers/PowersEffect/" + name.ToString() + "Effect");
+        return objectLoaded;
     }
 }
