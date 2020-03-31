@@ -40,7 +40,13 @@ public class BasicTrowBallBehaviour : PowersBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        this.isMoving = false;
+        this.Collided();
+    }
 
+    private void Collided()
+    {
+        this.collider.enabled = false;
+        this.isMoving = false;
+        this.m_Effect.StartToEffect();
     }
 }
