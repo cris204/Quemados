@@ -2,12 +2,25 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BasicThrowBallPowerEffect : PowersEffect
+public class BasicThrowBallEffect : PowersEffect
 {
     public int attackPower;
-    public override void FillData(Power data)
+    public Collider collider;
+
+    public override void InitEffect(Power data)
     {
         this.attackPower = data.attackPower;
+        collider.enabled = false;
+    }
+
+    public override void StartToEffect()//Could use a coroutine for delay effect
+    {
+        collider.enabled = true;
+    }
+
+    public override void TriggerPowerEffect() 
+    {
+        this.Effect();
     }
 
     public override void Effect()
@@ -15,9 +28,13 @@ public class BasicThrowBallPowerEffect : PowersEffect
         int newHealt = Mathf.Clamp(this.attackPower + this.attacker.m_Attack.attackPower, 0, this.victim.m_Health.maxHealth);
         this.victim.m_Health.SetHeatlh(newHealt); 
     }
-
-    public override void TriggerPowerEffect() //Could use a coroutine for delay effect
+    int colliders = 1;
+    private void OnTriggerEnter(Collider other)
     {
-        this.Effect();
+        CharacterComponents components = other.GetComponent<CharacterComponents>();
+        if(components != null) {
+            this.victim = components;
+            this.TriggerPowerEffect();
+        }
     }
 }

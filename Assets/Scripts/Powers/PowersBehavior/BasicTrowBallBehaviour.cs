@@ -2,24 +2,45 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BasicTrowBallBehaviour : MonoBehaviour
+public class BasicTrowBallBehaviour : PowersBehaviour
 {
-    public PowerType powerType;
-    private GameObject effectPrefab;
-    private BasicThrowBallPowerEffect m_Effect;
+    private BasicThrowBallEffect m_Effect;
 
-    private bool isInit;
-
-    private void Start()
-    {
-        this.Init();
-    }
-    private void Init()
+    protected override void Init()
     {
         if (!this.isInit) {
-            this.effectPrefab = ResourcesManager.Instance.GetPowerBehaviourPrefab(this.powerType);
-            this.m_Effect = this.effectPrefab.GetComponent<BasicThrowBallPowerEffect>();
-            this.m_Effect.FillData(PowersDataBase.GetPowerDataByType(this.powerType));
+            this.isInit = true;
+            this.effectPrefab = ResourcesManager.Instance.GetPowerEffectPrefab(this.powerType);
+            this.effectPrefab.transform.SetParent(this.gameObject.transform);
+            this.effectPrefab.transform.localPosition = Vector3.zero;
+            this.m_Effect = this.effectPrefab.GetComponent<BasicThrowBallEffect>();
+            this.m_Effect.InitEffect(PowersDataBase.GetPowerDataByType(this.powerType));
         }
+    }
+
+    public override void StartAttack()
+    {
+        this.Init();
+        this.isMoving = true;
+    }
+
+    private void Update()
+    {
+        if (this.isMoving) {
+            this.MovementBehavior();
+        }
+    }
+
+    protected override void MovementBehavior()
+    {
+        Vector3 movementVector = this.transform.forward;
+
+        this.rigidbody.velocity = movementVector * this.speed * Time.deltaTime;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        this.isMoving = false;
+
     }
 }

@@ -5,6 +5,8 @@ using InControl;
 
 public class PlayerController : MonoBehaviour
 {
+    public CharacterComponents components;
+
     private float horizontal;
     private float vertical;
     private Vector3 inputDirection;
@@ -12,6 +14,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float speed=300;
     public PlayerActions Actions { get; set; }
     public bool usingKeyboard=false;
+
     void Awake()
     {
         this.rb = this.GetComponent<Rigidbody>();
@@ -80,6 +83,7 @@ public class PlayerController : MonoBehaviour
 
     private void Shoot()
     {
+        this.components.m_Attack.Attack(PowerType.BasicThrowBall);
         Debug.LogError("Shoot");
     }
 
