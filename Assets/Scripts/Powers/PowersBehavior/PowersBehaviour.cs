@@ -6,6 +6,7 @@ public abstract class PowersBehaviour : MonoBehaviour
 {
     public PowerType powerType;
     public float speed;
+    public CharacterComponents attacker;
     protected GameObject effectPrefab;
     protected Rigidbody rigidbody;
     protected Collider collider;
@@ -17,9 +18,10 @@ public abstract class PowersBehaviour : MonoBehaviour
     {
         this.Init();
     }
-    public void SetPowerData(PowerType powerType)
+    public void SetPower(PowerType powerType, CharacterComponents attacker)
     {
         this.powerType = powerType;
+        this.attacker = attacker;
     }
 
     protected abstract void Init();

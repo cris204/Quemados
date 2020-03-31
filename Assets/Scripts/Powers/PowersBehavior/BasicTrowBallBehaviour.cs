@@ -9,16 +9,9 @@ public class BasicTrowBallBehaviour : PowersBehaviour
     protected override void Init()
     {
         if (!this.isInit) {
+            this.isInit = true;
             this.rigidbody = GetComponent<Rigidbody>();
             this.collider = GetComponent<Collider>();
-
-            this.isInit = true;
-            BasicThrowBallEffect prefab = (BasicThrowBallEffect)ResourcesManager.Instance.GetPowerEffectPrefab(this.powerType);
-            this.effectPrefab = Instantiate(prefab.gameObject);
-            this.effectPrefab.transform.SetParent(this.gameObject.transform);
-            this.effectPrefab.transform.localPosition = Vector3.zero;
-            this.m_Effect = this.effectPrefab.GetComponent<BasicThrowBallEffect>();
-            this.m_Effect.InitEffect(PowersDataBase.GetPowerDataByType(this.powerType));
         }
     }
 
@@ -42,15 +35,37 @@ public class BasicTrowBallBehaviour : PowersBehaviour
         this.rigidbody.velocity = movementVector * this.speed * Time.deltaTime;
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+    }
+
     private void OnTriggerEnter(Collider other)
     {
-        this.Collided();
+        if (this.isMoving) {
+            CharacterComponents component = other.GetComponent<CharacterComponents>();
+            if(component != null) {
+                if(component != this.attacker) {
+                    this.Collided();
+                }
+            }
+        }
     }
 
     private void Collided()
     {
         this.collider.enabled = false;
         this.isMoving = false;
+        this.rigidbody.velocity = Vector3.zero;
+        this.CreateEffect();
+    }
+
+    private void CreateEffect()
+    {
+        BasicThrowBallEffect prefab = (BasicThrowBallEffect)ResourcesManager.Instance.GetPowerEffectPrefab(this.powerType);
+        this.effectPrefab = Instantiate(prefab.gameObject, this.gameObject.transform);
+        this.effectPrefab.transform.localPosition = Vector3.zero;
+        this.m_Effect = this.effectPrefab.GetComponent<BasicThrowBallEffect>();
+        this.m_Effect.InitEffect(PowersDataBase.GetPowerDataByType(this.powerType), this.attacker);
         this.m_Effect.StartToEffect();
     }
 }
