@@ -1699,8 +1699,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lookAt: {fileID: 853231307}
-  boundX: 2
-  boundY: 1.5
+  boundX: 10
+  boundY: 10
+  speed: 0.1
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0
@@ -7488,6 +7489,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2682303617443687073, guid: 8cc87f860633f9c438f1786b33efcb5f,
+        type: 3}
+      propertyPath: speed
+      value: 600
       objectReference: {fileID: 0}
     - target: {fileID: 2682303617443687085, guid: 8cc87f860633f9c438f1786b33efcb5f,
         type: 3}
