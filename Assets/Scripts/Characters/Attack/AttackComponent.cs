@@ -17,6 +17,13 @@ public class AttackComponent : MonoBehaviour
         set => this.canAttack = value;
     }
 
+    public AttackComponent()
+    {
+        this.attackPower = 10;
+        this.attackCoolDown = 1;
+    }
+
+
     private void Start()
     {
         this.Init();
@@ -27,6 +34,10 @@ public class AttackComponent : MonoBehaviour
         if (!this.isInit) {
             this.isInit = true;
             this.attackDelay = new WaitForSeconds(this.attackCoolDown);
+            if(this.spawnPointGO == null) {
+                Debug.LogWarning("No spawn point assigned. Assigning GameObject itself as spawn point");
+                this.spawnPointGO = this.gameObject;
+            }
         }
     }
 

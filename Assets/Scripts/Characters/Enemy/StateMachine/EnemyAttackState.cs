@@ -8,6 +8,11 @@ public class EnemyAttackState : EnemyState
 
     private void Attack()
     {
+        this.AimToTarget();
         this.m_Attack.Attack(PowerType.BasicThrowBall, this.m_Components);
+    }
+
+    private void AimToTarget()
+    {
     }
 }

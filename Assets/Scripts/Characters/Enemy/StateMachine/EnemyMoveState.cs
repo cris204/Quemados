@@ -4,17 +4,9 @@ using UnityEngine;
 
 public class EnemyMoveState : EnemyState
 {
-    private Transform currentTarget;
-
-    // Start is called before the first frame update
     void Start()
     {
         
-    }
-
-    public void ChangeTarget(Transform newTarget)
-    {
-        this.currentTarget = newTarget;
     }
 
     // Update is called once per frame

@@ -28,7 +28,8 @@ public class EnemyStatesController : MonoBehaviour
         this.moveState.m_Components = components;
         this.attackState.m_Components = components;
 
-        this.moveState.ChangeTarget(this.currentTarget);
+        this.moveState.ChangeAttackTarget(this.currentTarget);
+        this.attackState.ChangeAttackTarget(this.currentTarget);
     }
 
     private void Update()
@@ -36,6 +37,20 @@ public class EnemyStatesController : MonoBehaviour
         if (Vector3.Distance(this.ownTransform.position, this.currentTarget.position) < this.distanceAttack) {
             this.moveState.enabled = false;
             this.attackState.enabled = true;
+        } else {
+            this.moveState.enabled = false;
+            this.attackState.enabled = true;
         }
+    }
+
+    private void ChangeMoveTarget(Transform newTarget)
+    {
+        this.moveState.ChangeAttackTarget(newTarget);
+        this.attackState.ChangeAttackTarget(newTarget);
+    }
+
+    private void ChangeAttackTarget(Transform newTarget)
+    {
+
     }
 }

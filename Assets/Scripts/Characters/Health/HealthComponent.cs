@@ -8,6 +8,18 @@ public class HealthComponent : MonoBehaviour
     public int maxHealth;
     public int currentlHealth;
 
+    public HealthComponent()
+    {
+        this.initialHealth = 100;
+        this.maxHealth = 100;
+        this.currentlHealth = this.initialHealth;
+    }
+
+    private void Start()
+    {
+        this.currentlHealth = this.initialHealth;
+    }
+
     public int GetCurrentHealth()
     {
         return this.currentlHealth;

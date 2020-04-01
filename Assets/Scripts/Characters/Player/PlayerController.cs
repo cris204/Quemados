@@ -83,7 +83,7 @@ public class PlayerController : MonoBehaviour
 
     private void Shoot()
     {
-        this.components.m_Attack.Attack(PowerType.BasicThrowBall, this.components);
+        this.components.Attack.Attack(PowerType.BasicThrowBall, this.components);
         Debug.LogError("Shoot");
     }
 
