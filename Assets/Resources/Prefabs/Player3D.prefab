@@ -226,6 +226,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackPower: 10
+  attackCoolDown: 0
   spawnPointGO: {fileID: 1172821221}
 --- !u!114 &853231304
 MonoBehaviour:
@@ -254,6 +255,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e4b40d016d87be43b65002fdec4a788, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Health: {fileID: 853231304}
-  m_Attack: {fileID: 853231303}
   id: 
