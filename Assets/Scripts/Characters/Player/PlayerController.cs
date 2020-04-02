@@ -95,7 +95,7 @@ public class PlayerController : MonoBehaviour
     #region Shoot and Aim
     private void Shoot()
     {
-        this.components.m_Attack.Attack(PowerType.BasicThrowBall, this.components);
+        this.components.Attack.Attack(PowerType.BasicThrowBall, this.components);
         Debug.LogError("Shoot");
     }
     private void Aiming()

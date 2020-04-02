@@ -26,9 +26,9 @@ public class BasicThrowBallEffect : PowersEffect
 
     public override void Effect()
     {
-        int damage = this.attackPower + this.attacker.m_Attack.attackPower;
-        int newHealt = Mathf.Clamp(this.victim.m_Health.currentlHealth - damage, 0, this.victim.m_Health.maxHealth);
-        this.victim.m_Health.SetHeatlh(newHealt); 
+        int damage = this.attackPower + this.attacker.Attack.attackPower;
+        int newHealt = Mathf.Clamp(this.victim.Health.currentlHealth - damage, 0, this.victim.Health.maxHealth);
+        this.victim.Health.SetHeatlh(newHealt); 
     }
     int colliders = 1;
     private void OnTriggerEnter(Collider other)
