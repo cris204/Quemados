@@ -15,9 +15,16 @@ public class PlayerController : MonoBehaviour
     public PlayerActions Actions { get; set; }
     public bool usingKeyboard=false;
 
+
+    [Header("Aim")]
+    public GameObject aimGO;
+    private float aimDistanceFromCenter = 3.5f;
+    private Vector3 aimDirection;
+
     void Awake()
     {
         this.rb = this.GetComponent<Rigidbody>();
+        this.aimDirection = new Vector3(aimDistanceFromCenter,0,0);
     }
 
     private void Start()
@@ -66,12 +73,15 @@ public class PlayerController : MonoBehaviour
     {
         if (Actions != null) {
             this.Movement();
+            this.Aiming();
+
             if (Actions.shoot.WasPressed) { // this works weird, I think we need to remove the WasPressed and use a delay
                 this.Shoot();
             }
         }
     }
 
+    #region Movement
     private void Movement()
     {
         horizontal = this.Actions.move.X;
@@ -80,11 +90,23 @@ public class PlayerController : MonoBehaviour
         rb.velocity = inputDirection * speed * Time.deltaTime;
 
     }
+    #endregion
 
+    #region Shoot and Aim
     private void Shoot()
     {
         this.components.m_Attack.Attack(PowerType.BasicThrowBall, this.components);
         Debug.LogError("Shoot");
     }
+    private void Aiming()
+    {
+        this.aimDirection = new Vector3(this.Actions.aimMove.X, 0, this.Actions.aimMove.Y);
 
+        if (this.aimDirection.magnitude > 0.5f) {
+            this.aimDirection.Normalize();
+            this.aimDirection *= aimDistanceFromCenter;
+            this.aimGO.transform.localPosition = this.aimDirection;
+        }
+    }
+    #endregion
 }
