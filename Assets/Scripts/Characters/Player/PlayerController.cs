@@ -25,6 +25,7 @@ public class PlayerController : MonoBehaviour
     {
         this.rb = this.GetComponent<Rigidbody>();
         this.aimDirection = new Vector3(aimDistanceFromCenter,0,0);
+        this.components.Init();
     }
 
     private void Start()
@@ -75,7 +76,7 @@ public class PlayerController : MonoBehaviour
             this.Movement();
             this.Aiming();
 
-            if (Actions.shoot.WasPressed) { // this works weird, I think we need to remove the WasPressed and use a delay
+            if (Actions.shoot) { // this works weird, I think we need to remove the WasPressed and use a delay
                 this.Shoot();
             }
         }
@@ -95,7 +96,7 @@ public class PlayerController : MonoBehaviour
     #region Shoot and Aim
     private void Shoot()
     {
-        this.components.Attack.Attack(PowerType.BasicThrowBall, this.components);
+        this.components.Attack.Attack(PowerType.BasicThrowBall, this.components, this.aimGO.transform.localPosition.normalized); //(playerController.aim.transform.position - transform.position).normalized
         Debug.LogError("Shoot");
     }
     private void Aiming()

@@ -12,6 +12,7 @@ public class EnemyAttackState : EnemyState
     private Random randomCD;
     private int maxCD;
     private int minCD;
+    private Vector3 aimDirection;
 
     private void Start()
     {
@@ -24,7 +25,7 @@ public class EnemyAttackState : EnemyState
     private void Attack()
     {
         this.AimToTarget();
-        this.m_Attack.Attack(PowerType.BasicThrowBall, this.m_Components);
+        this.m_Attack.Attack(PowerType.BasicThrowBall, this.m_Components, aimDirection);
     }
 
     private void AimToTarget()
