@@ -10,6 +10,7 @@ public abstract class PowersBehaviour : MonoBehaviour
     protected GameObject effectPrefab;
     protected Rigidbody rigidbody;
     protected Collider collider;
+    protected Vector3 moveDirection;
 
     protected bool isInit;
     protected bool isMoving;
@@ -25,6 +26,6 @@ public abstract class PowersBehaviour : MonoBehaviour
     }
 
     protected abstract void Init();
-    public abstract void StartAttack();
+    public abstract void StartAttack(Vector3 direction);
     protected abstract void MovementBehavior();
 }

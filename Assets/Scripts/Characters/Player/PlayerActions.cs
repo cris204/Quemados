@@ -5,33 +5,52 @@ using InControl;
 
 public class PlayerActions : PlayerActionSet
 {
-
-	public PlayerAction left;
-	public PlayerAction right;
-	public PlayerAction up;
-	public PlayerAction down;
-	public PlayerAction shoot;
+	//Move
+	public PlayerAction moveLeft;
+	public PlayerAction moveRight;
+	public PlayerAction moveUp;
+	public PlayerAction moveDown;
 	public PlayerTwoAxisAction move;
+
+	//Aim
+	public PlayerAction aimLeft;
+	public PlayerAction aimRight;
+	public PlayerAction aimUp;
+	public PlayerAction aimDown;
+	public PlayerTwoAxisAction aimMove;
+
+	//Actions
+	public PlayerAction shoot;
 
 
 	public PlayerActions()
 	{
+		//Move
+		moveLeft = CreatePlayerAction("MoveLeft");
+		moveRight = CreatePlayerAction("MoveRight");
+		moveUp = CreatePlayerAction("MoveUp");
+		moveDown = CreatePlayerAction("MoveDown");
+		move = CreateTwoAxisPlayerAction(moveLeft, moveRight, moveDown, moveUp);
+
+		//Aim
+		aimLeft = CreatePlayerAction("AimLeft");
+		aimRight = CreatePlayerAction("AimRight");
+		aimUp = CreatePlayerAction("AimUp");
+		aimDown = CreatePlayerAction("AimDown");
+		aimMove = CreateTwoAxisPlayerAction(aimLeft, aimRight, aimDown, aimUp);
+
+		//Actions
 		shoot = CreatePlayerAction("Shoot");
-		left = CreatePlayerAction("Left");
-		right = CreatePlayerAction("Right");
-		up = CreatePlayerAction("Up");
-		down = CreatePlayerAction("Down");
-		move = CreateTwoAxisPlayerAction(left, right, down, up);
 	}
 
 	public static PlayerActions CreateWithKeyboardBindings()
 	{
 		var actions = new PlayerActions();
 
-		actions.up.AddDefaultBinding(Key.UpArrow);
-		actions.down.AddDefaultBinding(Key.DownArrow);
-		actions.left.AddDefaultBinding(Key.LeftArrow);
-		actions.right.AddDefaultBinding(Key.RightArrow);
+		actions.moveUp.AddDefaultBinding(Key.UpArrow);
+		actions.moveDown.AddDefaultBinding(Key.DownArrow);
+		actions.moveLeft.AddDefaultBinding(Key.LeftArrow);
+		actions.moveRight.AddDefaultBinding(Key.RightArrow);
 		actions.shoot.AddDefaultBinding(Key.Space); // we need to find the way to change this to left click button http://www.gallantgames.com/incontrol-api/html/class_in_control_1_1_mouse_binding_source.html this can help
 
 		return actions;
@@ -41,17 +60,26 @@ public class PlayerActions : PlayerActionSet
 	public static PlayerActions CreateWithJoystickBindings()
 	{
 		var actions = new PlayerActions();
+		//Move
+		actions.moveUp.AddDefaultBinding(InputControlType.LeftStickUp);
+		actions.moveDown.AddDefaultBinding(InputControlType.LeftStickDown);
+		actions.moveLeft.AddDefaultBinding(InputControlType.LeftStickLeft);
+		actions.moveRight.AddDefaultBinding(InputControlType.LeftStickRight);
 
-		actions.up.AddDefaultBinding(InputControlType.LeftStickUp);
-		actions.down.AddDefaultBinding(InputControlType.LeftStickDown);
-		actions.left.AddDefaultBinding(InputControlType.LeftStickLeft);
-		actions.right.AddDefaultBinding(InputControlType.LeftStickRight);
+		actions.moveUp.AddDefaultBinding(InputControlType.DPadUp);
+		actions.moveDown.AddDefaultBinding(InputControlType.DPadDown);
+		actions.moveLeft.AddDefaultBinding(InputControlType.DPadLeft);
+		actions.moveRight.AddDefaultBinding(InputControlType.DPadRight);
+
+		//Aim
+		actions.aimUp.AddDefaultBinding(InputControlType.RightStickUp);
+		actions.aimDown.AddDefaultBinding(InputControlType.RightStickDown);
+		actions.aimLeft.AddDefaultBinding(InputControlType.RightStickLeft);
+		actions.aimRight.AddDefaultBinding(InputControlType.RightStickRight);
+
+
+		//Actions
 		actions.shoot.AddDefaultBinding(InputControlType.RightTrigger);
-
-		actions.up.AddDefaultBinding(InputControlType.DPadUp);
-		actions.down.AddDefaultBinding(InputControlType.DPadDown);
-		actions.left.AddDefaultBinding(InputControlType.DPadLeft);
-		actions.right.AddDefaultBinding(InputControlType.DPadRight);
 
 		return actions;
 	}

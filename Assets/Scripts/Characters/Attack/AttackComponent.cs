@@ -8,7 +8,7 @@ public class AttackComponent : MonoBehaviour
     public float attackCoolDown;
     public GameObject spawnPointGO;
 
-    private bool canAttack;
+    private bool canAttack=true;
     private bool isInit;
     private WaitForSeconds attackDelay;
 
@@ -47,7 +47,7 @@ public class AttackComponent : MonoBehaviour
         this.attackDelay = new WaitForSeconds(newCoolDown);
     }
 
-    public void Attack(PowerType powerType, CharacterComponents attacker)
+    public void Attack(PowerType powerType, CharacterComponents attacker, Vector3 direction)
     {
         if (!this.CanAttack)
             return;
@@ -58,7 +58,7 @@ public class AttackComponent : MonoBehaviour
         prefab.transform.position = this.spawnPointGO.transform.position;
         PowersBehaviour powerInstantiated = prefab.GetComponent<PowersBehaviour>();
         powerInstantiated.SetPower(powerType, attacker);
-        powerInstantiated.StartAttack();
+        powerInstantiated.StartAttack(direction);
 
         StartCoroutine(this.AttackCoolDown());
     }

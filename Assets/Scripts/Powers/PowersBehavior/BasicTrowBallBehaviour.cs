@@ -15,10 +15,13 @@ public class BasicTrowBallBehaviour : PowersBehaviour
         }
     }
 
-    public override void StartAttack()
+    public override void StartAttack(Vector3 direction)
     {
         this.Init();
         this.isMoving = true;
+        this.moveDirection = direction;
+        this.moveDirection.y = 0;
+        this.MovementBehavior();
     }
 
     private void Update()
@@ -30,9 +33,9 @@ public class BasicTrowBallBehaviour : PowersBehaviour
 
     protected override void MovementBehavior()
     {
-        Vector3 movementVector = this.transform.forward;
+        //Vector3 movementVector = this.transform.forward;
 
-        this.rigidbody.velocity = movementVector * this.speed * Time.deltaTime;
+        this.rigidbody.velocity = moveDirection * this.speed * Time.deltaTime;
     }
 
     private void OnCollisionEnter(Collision collision)

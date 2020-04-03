@@ -2858,33 +2858,12 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 19.20198, y: 0.66587067}
   m_EdgeRadius: 0
---- !u!1 &853231302 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2682303617443687085, guid: 8cc87f860633f9c438f1786b33efcb5f,
-    type: 3}
-  m_PrefabInstance: {fileID: 2682303616674606187}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &853231307 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2682303617443687072, guid: 8cc87f860633f9c438f1786b33efcb5f,
     type: 3}
   m_PrefabInstance: {fileID: 2682303616674606187}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &853231308
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 853231302}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f6afca7eb0b70634a99af5d6d1b34e87, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  target: {fileID: 853231307}
-  smoothSpeed: 0.125
-  offset: {x: 0, y: 0, z: 0}
 --- !u!1 &863019682
 GameObject:
   m_ObjectHideFlags: 0
@@ -7489,11 +7468,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2682303617443687073, guid: 8cc87f860633f9c438f1786b33efcb5f,
-        type: 3}
-      propertyPath: speed
-      value: 600
       objectReference: {fileID: 0}
     - target: {fileID: 2682303617443687085, guid: 8cc87f860633f9c438f1786b33efcb5f,
         type: 3}

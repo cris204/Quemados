@@ -23,7 +23,7 @@ public class CharacterComponents : MonoBehaviour, IEqualityComparer<CharacterCom
         }
     }
 
-    private void Init()
+    public void Init()
     {
         if (!this.isInit) {
             this.isInit = true;
