@@ -128,7 +128,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   powerType: 0
-  speed: 600
+  speed: 2000
   attacker: {fileID: 0}
 --- !u!135 &8016851514020545050
 SphereCollider:

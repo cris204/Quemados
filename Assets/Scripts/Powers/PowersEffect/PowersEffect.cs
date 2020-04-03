@@ -6,6 +6,9 @@ public abstract class PowersEffect : MonoBehaviour
 {
     public CharacterComponents attacker;
     public CharacterComponents victim;
+    public float aliveTime;
+    protected WaitForSeconds destroyDelay;
+
     public abstract void InitEffect(Power data, CharacterComponents attacker);
     public abstract void StartToEffect();
     public abstract void TriggerPowerEffect();
