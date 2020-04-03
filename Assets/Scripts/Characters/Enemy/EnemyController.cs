@@ -4,23 +4,31 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
-    public CharacterComponents m_Components;
-    public Rigidbody rigidbody;
-    public Collider collider;
-    public EnemyStatesController states;
+    private CharacterComponents m_Components;
+    private Rigidbody rigidbody;
+    private Collider collider;
+    private EnemyStatesController states;
 
-    public bool isInit;
+    private bool isInit;
+
+    private void Awake()
+    {
+        this.Init();
+    }
 
     private void Start()
     {
-        this.Init();
+        this.InitStates();
     }
 
     private void Init()
     {
         if (!this.isInit) {
             this.isInit = true;
-            this.InitStates();
+            this.m_Components = this.gameObject.GetComponent<CharacterComponents>();
+            this.rigidbody = this.gameObject.GetComponent<Rigidbody>();
+            this.collider = this.gameObject.GetComponent<Collider>();
+            this.states = this.gameObject.GetComponent<EnemyStatesController>();
         }
     }
 

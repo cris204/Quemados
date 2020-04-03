@@ -18,12 +18,13 @@ public class CharacterComponents : MonoBehaviour, IEqualityComparer<CharacterCom
 
     private void Awake()
     {
+        this.Init();
         if (string.IsNullOrEmpty(this.id)){
             this.id = Guid.NewGuid().ToString();
         }
     }
 
-    public void Init()
+    private void Init()
     {
         if (!this.isInit) {
             this.isInit = true;

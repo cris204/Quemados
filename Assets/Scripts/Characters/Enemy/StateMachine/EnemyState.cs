@@ -5,9 +5,9 @@ using UnityEngine;
 public class EnemyState : MonoBehaviour
 {
     public CharacterComponents m_Components;
-    private Transform ownTransform;
-    private Transform attackTarget;
-    private Transform moveTarget;
+    protected Transform ownTransform;
+    protected Transform attackTarget;
+    protected Transform moveTarget;
 
     public void ChangeAttackTarget(Transform newTarget)
     {
@@ -19,7 +19,7 @@ public class EnemyState : MonoBehaviour
         this.moveTarget = newTarget;
     }
 
-    public void SetOwnTransform(Transform newTarget)
+    public void ChangeOwnTransform(Transform newTarget)
     {
         this.ownTransform = newTarget;
     }

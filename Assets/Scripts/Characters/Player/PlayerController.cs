@@ -25,7 +25,6 @@ public class PlayerController : MonoBehaviour
     {
         this.rb = this.GetComponent<Rigidbody>();
         this.aimDirection = new Vector3(aimDistanceFromCenter,0,0);
-        this.components.Init();
     }
 
     private void Start()
