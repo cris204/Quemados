@@ -13,6 +13,8 @@ public class EnemyAttackState : EnemyState
     private int minCD;
     private Vector3 aimDirection;
     private bool canAttack;
+    private WaitForSeconds attackDelay;
+
 
     private void Start()
     {
@@ -21,6 +23,7 @@ public class EnemyAttackState : EnemyState
         this.canAttack = true;
         this.randomCD = new Random();
         this.attackCoolDown = this.randomCD.Next(this.minCD, this.maxCD + 1);
+        this.attackDelay = new WaitForSeconds(this.attackCoolDown);
     }
 
     private void Update()
@@ -40,7 +43,7 @@ public class EnemyAttackState : EnemyState
 
     private IEnumerator AttackCoolDown()
     {
-        yield return this.attackCoolDown;
+        yield return this.attackDelay;
         this.canAttack = true;
     }
 }
