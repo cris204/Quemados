@@ -47,12 +47,25 @@ public class PlayerActions : PlayerActionSet
 	{
 		var actions = new PlayerActions();
 
+		//Move
 		actions.moveUp.AddDefaultBinding(Key.UpArrow);
 		actions.moveDown.AddDefaultBinding(Key.DownArrow);
 		actions.moveLeft.AddDefaultBinding(Key.LeftArrow);
 		actions.moveRight.AddDefaultBinding(Key.RightArrow);
-		actions.shoot.AddDefaultBinding(Key.Space); // we need to find the way to change this to left click button http://www.gallantgames.com/incontrol-api/html/class_in_control_1_1_mouse_binding_source.html this can help
+	
+		actions.moveUp.AddDefaultBinding(Key.W);
+		actions.moveDown.AddDefaultBinding(Key.S);
+		actions.moveLeft.AddDefaultBinding(Key.A);
+		actions.moveRight.AddDefaultBinding(Key.D);
 
+		//Aim
+		/*actions.aimUp.AddDefaultBinding(Mouse.PositiveY);
+		actions.aimDown.AddDefaultBinding(Mouse.NegativeY);
+		actions.aimLeft.AddDefaultBinding(Mouse.NegativeX);
+		actions.aimRight.AddDefaultBinding(Mouse.PositiveX);*/
+
+		//Actions
+		actions.shoot.AddDefaultBinding(Mouse.LeftButton); // we need to find the way to change this to left click button http://www.gallantgames.com/incontrol-api/html/class_in_control_1_1_mouse_binding_source.html this can help
 		return actions;
 	}
 

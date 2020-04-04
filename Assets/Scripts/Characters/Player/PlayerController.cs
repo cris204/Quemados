@@ -20,7 +20,9 @@ public class PlayerController : MonoBehaviour
     private float aimDistanceFromCenter = 3.5f;
     private Vector3 aimDirection;
     private Vector3 mousePos;
-    public Camera cameraMain;
+    private Camera cameraMain;
+    public float offset; //Probs we need offset in X and Z, in this case I use the same cuz I added the same offset in SpawnPoint position
+
 
     void Awake()
     {
@@ -104,18 +106,22 @@ public class PlayerController : MonoBehaviour
     {
 
         if (usingKeyboard) {
-            mousePos = cameraMain.ScreenToWorldPoint(Input.mousePosition);
-
-            this.aimGO.transform.localPosition = Vector3.ClampMagnitude(mousePos,aimDistanceFromCenter); // aim clamped 
-            //this.aimGO.transform.localPosition = mousePos; // free aim
-            this.aimDirection = this.aimGO.transform.localPosition;
+            mousePos = cameraMain.ScreenToWorldPoint(Input.mousePosition) - this.transform.position;
+            this.aimGO.transform.localPosition = new Vector3(mousePos.x,0, mousePos.z + mousePos.y);
+            mousePos.x -= offset;
+            mousePos.z += (mousePos.y + offset);
+            mousePos.y = 0;
+            this.aimDirection = mousePos;
         } else {
-
             this.aimDirection = new Vector3(this.Actions.aimMove.X, 0, this.Actions.aimMove.Y);
             if (this.aimDirection.magnitude > 0.5f) {
                 this.aimDirection.Normalize();
                 this.aimDirection *= aimDistanceFromCenter;
                 this.aimGO.transform.localPosition = this.aimDirection;
+                this.aimDirection.x -= offset;
+                this.aimDirection.z += offset;
+            } else {
+                this.aimDirection = new Vector3(this.aimGO.transform.localPosition.x - offset, 0, this.aimGO.transform.localPosition.z+ offset);
             }
         }
     }
