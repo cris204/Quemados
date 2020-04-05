@@ -13,36 +13,27 @@ public class PlayerController : MonoBehaviour
     private Rigidbody rb;
     [SerializeField] private float speed=300;
     public PlayerActions Actions { get; set; }
-    public bool usingKeyboard=false;
-
 
     [Header("Aim")]
     public GameObject aimGO;
     private float aimDistanceFromCenter = 3.5f;
     private Vector3 aimDirection;
+    private Vector3 mousePos;
+    private Camera cameraMain;
+    public float offset; //Probs we need offset in X and Z, in this case I use the same cuz I added the same offset in SpawnPoint position
+
 
     void Awake()
     {
         this.rb = this.GetComponent<Rigidbody>();
         this.aimDirection = new Vector3(aimDistanceFromCenter,0,0);
+        this.cameraMain = Camera.main;
     }
 
     private void Start()
     {
-        if (InputManager.Devices.Count <= 0) {
-            this.Actions = PlayerActions.CreateWithKeyboardBindings();
-            this.usingKeyboard = true;
-        } else {
-            if (InputManager.Devices[0] != null) {
-                this.Actions = PlayerActions.CreateWithJoystickBindings();
-                this.Actions.Device = InputManager.Devices[0];//current one, we need to add with code later
-                this.usingKeyboard = false;
-            }
-        }
-
         this.components.SuscribeDeathAction(this.Death);
     }
-
     private void Update()
     {
         this.CheckUsingControl();
@@ -53,18 +44,18 @@ public class PlayerController : MonoBehaviour
     private void CheckUsingControl()
     {
         if (InputManager.Devices.Count <= 0) {
-            if (!this.usingKeyboard) {
+            if (!Env.IS_USING_KEYBOARD) {
                 this.Actions = PlayerActions.CreateWithKeyboardBindings();
-                this.usingKeyboard = true;
+                Env.IS_USING_KEYBOARD = true;
             }
         } else {
-            if (InputManager.AnyKeyIsPressed && !this.usingKeyboard) {
+            if (InputManager.AnyKeyIsPressed && !Env.IS_USING_KEYBOARD) {
                 this.Actions = PlayerActions.CreateWithKeyboardBindings();
-                this.usingKeyboard = true;
-            } else if (InputManager.Devices[0] != null && InputManager.Devices[0].IsActive && this.usingKeyboard) {
+                Env.IS_USING_KEYBOARD = true;
+            } else if (InputManager.Devices[0] != null && InputManager.Devices[0].IsActive && Env.IS_USING_KEYBOARD) {
                 this.Actions = PlayerActions.CreateWithJoystickBindings();
                 this.Actions.Device = InputManager.Devices[0];//current one, we need to add with code later
-                this.usingKeyboard = false;
+                Env.IS_USING_KEYBOARD = false;
             }
         }
     }
@@ -89,7 +80,7 @@ public class PlayerController : MonoBehaviour
         horizontal = this.Actions.move.X;
         vertical = this.Actions.move.Y;
         inputDirection = new Vector3(horizontal,0, vertical).normalized;
-        rb.velocity = inputDirection * speed * Time.deltaTime;
+        rb.velocity = inputDirection * speed * Time.fixedDeltaTime;
 
     }
     #endregion
@@ -97,17 +88,30 @@ public class PlayerController : MonoBehaviour
     #region Shoot and Aim
     private void Shoot()
     {
-        this.components.Attack.Attack(PowerType.BasicThrowBall, this.components, this.aimGO.transform.localPosition.normalized); //(playerController.aim.transform.position - transform.position).normalized
+        this.components.Attack.Attack(PowerType.BasicThrowBall, this.components, this.aimDirection.normalized); //(playerController.aim.transform.position - transform.position).normalized
         Debug.LogError("Shoot");
     }
     private void Aiming()
     {
-        this.aimDirection = new Vector3(this.Actions.aimMove.X, 0, this.Actions.aimMove.Y);
 
-        if (this.aimDirection.magnitude > 0.5f) {
-            this.aimDirection.Normalize();
-            this.aimDirection *= aimDistanceFromCenter;
-            this.aimGO.transform.localPosition = this.aimDirection;
+        if (Env.IS_USING_KEYBOARD) {
+            mousePos = cameraMain.ScreenToWorldPoint(Input.mousePosition) - this.transform.position;
+            this.aimGO.transform.localPosition = new Vector3(mousePos.x,0, mousePos.z + mousePos.y);
+            mousePos.x -= offset;
+            mousePos.z += (mousePos.y + offset);
+            mousePos.y = 0;
+            this.aimDirection = mousePos;
+        } else {
+            this.aimDirection = new Vector3(this.Actions.aimMove.X, 0, this.Actions.aimMove.Y);
+            if (this.aimDirection.magnitude > 0.5f) {
+                this.aimDirection.Normalize();
+                this.aimDirection *= aimDistanceFromCenter;
+                this.aimGO.transform.localPosition = this.aimDirection;
+                this.aimDirection.x -= offset;
+                this.aimDirection.z += offset;
+            } else {
+                this.aimDirection = new Vector3(this.aimGO.transform.localPosition.x - offset, 0, this.aimGO.transform.localPosition.z+ offset);
+            }
         }
     }
     #endregion
