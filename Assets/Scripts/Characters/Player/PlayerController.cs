@@ -6,6 +6,7 @@ using InControl;
 public class PlayerController : MonoBehaviour
 {
     public CharacterComponents components;
+    public CharacterType character;
 
     private float horizontal;
     private float vertical;
@@ -43,6 +44,7 @@ public class PlayerController : MonoBehaviour
             }
         }
 
+        this.components.character = this.character;
         this.components.SuscribeDeathAction(this.Death);
     }
     private void Update()

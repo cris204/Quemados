@@ -214,8 +214,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   components: {fileID: 853231305}
-  speed: 600
-  usingKeyboard: 0
+  character: 0
+  speed: 800
   aimGO: {fileID: 1259099510}
   offset: 1.7
 --- !u!212 &2682303617443687074
@@ -312,6 +312,7 @@ MonoBehaviour:
   attackPower: 10
   attackCoolDown: 0
   spawnPointGO: {fileID: 1172821221}
+  character: 0
 --- !u!114 &853231304
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -340,3 +341,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: 
+  character: 0

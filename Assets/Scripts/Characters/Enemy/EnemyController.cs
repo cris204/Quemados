@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
+    public CharacterType character;
     private CharacterComponents m_Components;
     private Rigidbody rigidbody;
     private Collider collider;
@@ -53,6 +54,8 @@ public class EnemyController : MonoBehaviour
 
     private void InitStates()
     {
+        this.m_Components.character = this.character;
+        this.m_Components.ChangeCharacterType();
         this.states.InitStates(this.m_Components, this.data);
     }
 

@@ -5,6 +5,7 @@ using UnityEngine;
 public abstract class PowersBehaviour : MonoBehaviour
 {
     public PowerType powerType;
+    public CharacterType characterThrew;
     public float speed;
     public CharacterComponents attacker;
     protected GameObject effectPrefab;

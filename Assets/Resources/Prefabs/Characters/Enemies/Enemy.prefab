@@ -298,6 +298,7 @@ MonoBehaviour:
   attackPower: 10
   attackCoolDown: 0
   spawnPointGO: {fileID: 899640143556709353}
+  character: 1
 --- !u!114 &899640144250148951
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -326,6 +327,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: 
+  character: 0
 --- !u!114 &899640144480263810
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -338,6 +340,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0acbb1ec1b6579945bb5060e95b392ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  character: 1
 --- !u!114 &899640144480263811
 MonoBehaviour:
   m_ObjectHideFlags: 0

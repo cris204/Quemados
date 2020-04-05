@@ -46,7 +46,7 @@ public class BasicTrowBallBehaviour : PowersBehaviour
     {
         CharacterComponents component = other.GetComponent<CharacterComponents>();
         if(component != null) {
-            if(component != this.attacker) {
+            if(component != this.attacker && component.character != this.characterThrew) {
                 this.Collided();
             }
         } else {

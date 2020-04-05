@@ -7,6 +7,7 @@ public class AttackComponent : MonoBehaviour
     public int attackPower;
     public float attackCoolDown;
     public GameObject spawnPointGO;
+    public CharacterType character;
 
     private bool canAttack=true;
     private bool isInit;
@@ -44,7 +45,12 @@ public class AttackComponent : MonoBehaviour
 
     public void SetAttackCoolDown(float newCoolDown)
     {
-        this.attackCoolDown = newCoolDown;
+        if(this.character == CharacterType.Player) {
+            this.attackCoolDown = 0.2f;
+        }
+        else{
+            this.attackCoolDown = newCoolDown;
+        }
         this.attackDelay = new WaitForSeconds(newCoolDown);
     }
 
@@ -58,6 +64,7 @@ public class AttackComponent : MonoBehaviour
         GameObject prefab = Instantiate(power.gameObject);
         prefab.transform.position = this.spawnPointGO.transform.position;
         PowersBehaviour powerInstantiated = prefab.GetComponent<PowersBehaviour>();
+        powerInstantiated.characterThrew = this.character;
         powerInstantiated.SetPower(powerType, attacker);
         powerInstantiated.StartAttack(direction);
 

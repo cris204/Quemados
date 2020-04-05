@@ -3,6 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum CharacterType { 
+    Player,
+    Enemy
+}
+
 [RequireComponent (typeof (HealthComponent), typeof (AttackComponent))]
 public class CharacterComponents : MonoBehaviour, IEqualityComparer<CharacterComponents>
 {
@@ -10,6 +15,8 @@ public class CharacterComponents : MonoBehaviour, IEqualityComparer<CharacterCom
 
     private HealthComponent m_Health;
     private AttackComponent m_Attack;
+
+    public CharacterType character;
 
     private bool isInit;
 
@@ -31,6 +38,11 @@ public class CharacterComponents : MonoBehaviour, IEqualityComparer<CharacterCom
             this.m_Health = GetComponent<HealthComponent>();
             this.m_Attack = GetComponent<AttackComponent>();
         }
+    }
+
+    public void ChangeCharacterType()
+    {
+        this.m_Attack.character = this.character;
     }
 
     public void SuscribeDeathAction(Action deathAction)
