@@ -45,6 +45,12 @@ public class GameManager : MonoBehaviour
             this.isInit = true;
             this.playerController = FindObjectOfType<PlayerController>();
             this.enemiesCount = Env.START_ENEMIES_COUNT;
+
+            //TEMP
+            EventManager.Instance.Trigger(new SpawnEnemiesEvent
+            {
+                enemiesCount = this.enemiesCount,
+            });
         }
     }
 
@@ -76,6 +82,12 @@ public class GameManager : MonoBehaviour
     }
 
     #endregion
+
+    private void CreateEnemies() //Probably we need to move this when implement the waves
+    {
+
+    }
+
 
     public void FinisGameContinue()
     {

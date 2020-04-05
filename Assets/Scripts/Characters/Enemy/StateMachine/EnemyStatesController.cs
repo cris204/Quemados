@@ -7,7 +7,6 @@ public class EnemyStatesController : MonoBehaviour
 {
     private EnemyMoveState moveState;
     private EnemyAttackState attackState;
-    public Transform testPlayer;
 
     public float distanceStaticAttack;
     public float distanceMovingAttack;
@@ -20,9 +19,9 @@ public class EnemyStatesController : MonoBehaviour
     {
         if (!this.isInit) {
             this.isInit = true;
+            this.currentTarget = GameManager.Instance.GetPlayerTransform(); 
             this.moveState = this.gameObject.GetComponent<EnemyMoveState>();
             this.attackState = this.gameObject.GetComponent<EnemyAttackState>();
-            this.currentTarget = testPlayer;//GameManager.Instance.GetPlayerTransform(); Descomment when game manager is implemented
             this.ownTransform = this.gameObject.transform;
 
             this.moveState.enabled = false;
@@ -35,7 +34,7 @@ public class EnemyStatesController : MonoBehaviour
         this.Init();
         this.moveState.m_Components = components;
         this.attackState.m_Components = components;
-
+       
         this.ChangeMoveTarget(this.currentTarget);
         this.ChangeAttackTarget(this.currentTarget);
 
