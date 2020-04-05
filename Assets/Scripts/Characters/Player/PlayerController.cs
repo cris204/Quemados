@@ -32,6 +32,17 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
+        if (InputManager.Devices.Count <= 0) {
+            this.Actions = PlayerActions.CreateWithKeyboardBindings();
+            Env.IS_USING_KEYBOARD = true;
+        } else {
+            if (InputManager.Devices[0] != null) {
+                this.Actions = PlayerActions.CreateWithJoystickBindings();
+                this.Actions.Device = InputManager.Devices[0];//current one, we need to add with code later
+                Env.IS_USING_KEYBOARD = false;
+            }
+        }
+
         this.components.SuscribeDeathAction(this.Death);
     }
     private void Update()
@@ -44,19 +55,24 @@ public class PlayerController : MonoBehaviour
     private void CheckUsingControl()
     {
         if (InputManager.Devices.Count <= 0) {
+
             if (!Env.IS_USING_KEYBOARD) {
                 this.Actions = PlayerActions.CreateWithKeyboardBindings();
                 Env.IS_USING_KEYBOARD = true;
             }
+
         } else {
-            if (InputManager.AnyKeyIsPressed && !Env.IS_USING_KEYBOARD) {
+
+            if ((Input.GetMouseButtonDown(0) || InputManager.AnyKeyIsPressed) && !Env.IS_USING_KEYBOARD) {
                 this.Actions = PlayerActions.CreateWithKeyboardBindings();
                 Env.IS_USING_KEYBOARD = true;
+
             } else if (InputManager.Devices[0] != null && InputManager.Devices[0].IsActive && Env.IS_USING_KEYBOARD) {
                 this.Actions = PlayerActions.CreateWithJoystickBindings();
                 this.Actions.Device = InputManager.Devices[0];//current one, we need to add with code later
                 Env.IS_USING_KEYBOARD = false;
             }
+
         }
     }
 
