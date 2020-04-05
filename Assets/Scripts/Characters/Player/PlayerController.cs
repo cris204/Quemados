@@ -13,7 +13,6 @@ public class PlayerController : MonoBehaviour
     private Rigidbody rb;
     [SerializeField] private float speed=300;
     public PlayerActions Actions { get; set; }
-    public bool usingKeyboard=false;
 
     [Header("Aim")]
     public GameObject aimGO;
@@ -31,20 +30,6 @@ public class PlayerController : MonoBehaviour
         this.cameraMain = Camera.main;
     }
 
-    private void Start()
-    {
-        if (InputManager.Devices.Count <= 0) {
-            this.Actions = PlayerActions.CreateWithKeyboardBindings();
-            this.usingKeyboard = true;
-        } else {
-            if (InputManager.Devices[0] != null) {
-                this.Actions = PlayerActions.CreateWithJoystickBindings();
-                this.Actions.Device = InputManager.Devices[0];//current one, we need to add with code later
-                this.usingKeyboard = false;
-            }
-        }
-    }
-
     private void Update()
     {
         this.CheckUsingControl();
@@ -55,18 +40,18 @@ public class PlayerController : MonoBehaviour
     private void CheckUsingControl()
     {
         if (InputManager.Devices.Count <= 0) {
-            if (!this.usingKeyboard) {
+            if (!Env.IS_USING_KEYBOARD) {
                 this.Actions = PlayerActions.CreateWithKeyboardBindings();
-                this.usingKeyboard = true;
+                Env.IS_USING_KEYBOARD = true;
             }
         } else {
-            if (InputManager.AnyKeyIsPressed && !this.usingKeyboard) {
+            if (InputManager.AnyKeyIsPressed && !Env.IS_USING_KEYBOARD) {
                 this.Actions = PlayerActions.CreateWithKeyboardBindings();
-                this.usingKeyboard = true;
-            } else if (InputManager.Devices[0] != null && InputManager.Devices[0].IsActive && this.usingKeyboard) {
+                Env.IS_USING_KEYBOARD = true;
+            } else if (InputManager.Devices[0] != null && InputManager.Devices[0].IsActive && Env.IS_USING_KEYBOARD) {
                 this.Actions = PlayerActions.CreateWithJoystickBindings();
                 this.Actions.Device = InputManager.Devices[0];//current one, we need to add with code later
-                this.usingKeyboard = false;
+                Env.IS_USING_KEYBOARD = false;
             }
         }
     }
@@ -105,7 +90,7 @@ public class PlayerController : MonoBehaviour
     private void Aiming()
     {
 
-        if (usingKeyboard) {
+        if (Env.IS_USING_KEYBOARD) {
             mousePos = cameraMain.ScreenToWorldPoint(Input.mousePosition) - this.transform.position;
             this.aimGO.transform.localPosition = new Vector3(mousePos.x,0, mousePos.z + mousePos.y);
             mousePos.x -= offset;
