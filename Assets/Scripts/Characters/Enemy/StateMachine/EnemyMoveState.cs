@@ -12,10 +12,14 @@ public class EnemyMoveState : EnemyState
     void Awake()
     {
         this.rigidbody = this.gameObject.GetComponent<Rigidbody>();
-        this.canMove = true;
+        this.canMove = false;
     }
 
-    // Update is called once per frame
+    private void Update()
+    {
+        this.CheckCanMove();
+    }
+
     void FixedUpdate()
     {
         if (this.canMove) {
@@ -30,13 +34,21 @@ public class EnemyMoveState : EnemyState
 
     private void Move()
     {
-        if(this.moveTarget == null) {
-            this.canMove = false;
-            return;
-        }
-
+      
+        
         Vector3 moveVector = (this.moveTarget.position - this.ownTransform.position).normalized;
         moveVector.y = 0;
         this.rigidbody.velocity = moveVector * this.movementSpeed * Time.fixedDeltaTime;
     }
+
+    private void CheckCanMove()
+    {
+        if (this.moveTarget == null) {
+            this.canMove = false;
+            return;
+        } else {
+            this.canMove = true;
+        }
+    }
+
 }
