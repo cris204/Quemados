@@ -9,7 +9,8 @@ public class EnemyStatesController : MonoBehaviour
     private EnemyAttackState attackState;
     public Transform testPlayer;
 
-    public float distanceAttack;
+    public float distanceStaticAttack;
+    public float distanceMovingAttack;
     private Transform currentTarget;
     private Transform ownTransform;
 
@@ -44,12 +45,17 @@ public class EnemyStatesController : MonoBehaviour
 
     private void Update()
     {
-        if (Vector3.Distance(this.currentTarget.position, this.ownTransform.position) < this.distanceAttack) {
-            this.moveState.enabled = false;
-            this.attackState.enabled = true;
-        } else {
+        if (this.currentTarget == null)
+            return;
+        if(Vector3.Distance(this.currentTarget.position, this.ownTransform.position) > this.distanceMovingAttack) {
             this.moveState.enabled = true;
             this.attackState.enabled = false;
+        }else if (Vector3.Distance(this.currentTarget.position, this.ownTransform.position) > this.distanceStaticAttack) {
+            this.moveState.enabled = true;
+            this.attackState.enabled = true;
+        } else {
+            this.moveState.enabled = false;
+            this.attackState.enabled = true;
         }
     }
 
