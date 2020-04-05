@@ -20,12 +20,23 @@ public class BasicThrowBallEffect : PowersEffect
         this.attacker = attacker;
         this.ownCollider.enabled = false;
         this.destroyDelay = new WaitForSeconds(this.aliveTime);
+        this.StartToEffect();
     }
 
 
     public override void StartToEffect()//Could use a coroutine for delay effect
     {
         this.ownCollider.enabled = true;
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        CharacterComponents components = other.GetComponent<CharacterComponents>();
+        if(components != null) {
+            if(components != this.attacker) {
+                this.victim = components;
+                this.TriggerPowerEffect();
+            }
+        }
     }
 
     public override void TriggerPowerEffect() 
@@ -39,16 +50,6 @@ public class BasicThrowBallEffect : PowersEffect
         int newHealt = Mathf.Clamp(this.victim.Health.currentlHealth - damage, 0, this.victim.Health.maxHealth);
         this.victim.Health.SetHeatlh(newHealt);
         StartCoroutine(this.DestroyEffect());
-    }
-    private void OnTriggerEnter(Collider other)
-    {
-        CharacterComponents components = other.GetComponent<CharacterComponents>();
-        if(components != null) {
-            if(components != this.attacker) {
-                this.victim = components;
-                this.TriggerPowerEffect();
-            }
-        }
     }
 
     private IEnumerator DestroyEffect()

@@ -16,7 +16,7 @@ public class EnemyMoveState : EnemyState
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (this.canMove) {
             this.Move();
@@ -37,6 +37,6 @@ public class EnemyMoveState : EnemyState
 
         Vector3 moveVector = (this.moveTarget.position - this.ownTransform.position).normalized;
         moveVector.y = 0;
-        this.rigidbody.velocity = moveVector * this.movementSpeed * Time.deltaTime;
+        this.rigidbody.velocity = moveVector * this.movementSpeed * Time.fixedDeltaTime;
     }
 }

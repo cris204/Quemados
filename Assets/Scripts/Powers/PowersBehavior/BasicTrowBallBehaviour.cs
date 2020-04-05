@@ -24,7 +24,7 @@ public class BasicTrowBallBehaviour : PowersBehaviour
         this.MovementBehavior();
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         if (this.isMoving) {
             this.MovementBehavior();
@@ -35,7 +35,7 @@ public class BasicTrowBallBehaviour : PowersBehaviour
     {
         //Vector3 movementVector = this.transform.forward;
 
-        this.rigidbody.velocity = moveDirection * this.speed * Time.deltaTime;
+        this.rigidbody.velocity = moveDirection * this.speed * Time.fixedDeltaTime;
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -44,13 +44,13 @@ public class BasicTrowBallBehaviour : PowersBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (this.isMoving) {
-            CharacterComponents component = other.GetComponent<CharacterComponents>();
-            if(component != null) {
-                if(component != this.attacker) {
-                    this.Collided();
-                }
+        CharacterComponents component = other.GetComponent<CharacterComponents>();
+        if(component != null) {
+            if(component != this.attacker) {
+                this.Collided();
             }
+        } else {
+            this.Destroy();
         }
     }
 
@@ -66,10 +66,9 @@ public class BasicTrowBallBehaviour : PowersBehaviour
     {
         BasicThrowBallEffect prefab = (BasicThrowBallEffect)ResourcesManager.Instance.GetPowerEffectPrefab(this.powerType);
         this.effectPrefab = Instantiate(prefab.gameObject);
-        this.effectPrefab.transform.localPosition = Vector3.zero;
+        this.effectPrefab.transform.localPosition = this.transform.localPosition;
         this.m_Effect = this.effectPrefab.GetComponent<BasicThrowBallEffect>();
         this.m_Effect.InitEffect(PowersDataBase.GetPowerDataByType(this.powerType), this.attacker);
-        this.m_Effect.StartToEffect();
         this.Destroy();
     }
 

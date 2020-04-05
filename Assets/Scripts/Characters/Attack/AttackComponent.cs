@@ -27,6 +27,7 @@ public class AttackComponent : MonoBehaviour
     private void Start()
     {
         this.Init();
+        this.SetAttackCoolDown(1);
     }
 
     private void Init()
