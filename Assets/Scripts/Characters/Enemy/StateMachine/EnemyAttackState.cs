@@ -6,26 +6,7 @@ using Random = System.Random;
 
 public class EnemyAttackState : EnemyState
 {
-    public float attackCoolDown;
-
-    private Random randomCD;
-    private int maxCD;
-    private int minCD;
     private Vector3 aimDirection;
-    private bool canAttack;
-    private WaitForSeconds attackDelay;
-
-
-    private void Start()
-    {
-        this.maxCD = 3;
-        this.minCD = 1;
-        this.canAttack = true;
-        this.randomCD = new Random();
-        this.attackCoolDown = this.randomCD.Next(this.minCD, this.maxCD + 1);
-        this.attackDelay = new WaitForSeconds(this.attackCoolDown);
-    }
-
     private void Update()
     {
         this.Attack();
@@ -33,17 +14,9 @@ public class EnemyAttackState : EnemyState
 
     private void Attack()
     {
-        if (!this.canAttack)
+        if (this.attackTarget == null)
             return;
 
-        this.canAttack = false;
-        this.m_Components.Attack.Attack(PowerType.BasicThrowBall, this.m_Components, this.attackTarget.localPosition.normalized);
-        StartCoroutine(AttackCoolDown());
-    }
-
-    private IEnumerator AttackCoolDown()
-    {
-        yield return this.attackDelay;
-        this.canAttack = true;
+        this.m_Components.Attack.Attack(PowerType.BasicThrowBall, this.m_Components, (this.attackTarget.localPosition - this.transform.position).normalized);
     }
 }

@@ -20,6 +20,9 @@ public class CameraFollow : MonoBehaviour //https://www.youtube.com/watch?v=Gwc4
 
    private void LateUpdate()
     {
+        if (this.lookAt == null)
+            return;
+
         this.delta = Vector3.zero;
         this.dx = this.lookAt.position.x - transform.position.x;
         if(this.dx > this.boundX || this.dx < -this.boundX) {
