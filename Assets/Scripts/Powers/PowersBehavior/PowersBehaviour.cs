@@ -28,4 +28,5 @@ public abstract class PowersBehaviour : MonoBehaviour
     protected abstract void Init();
     public abstract void StartAttack(Vector3 direction);
     protected abstract void MovementBehavior();
+    protected abstract void Destroy();
 }

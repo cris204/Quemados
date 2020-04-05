@@ -39,6 +39,8 @@ public class PlayerController : MonoBehaviour
                 this.usingKeyboard = false;
             }
         }
+
+        this.components.SuscribeDeathAction(this.Death);
     }
 
     private void Update()
@@ -107,6 +109,14 @@ public class PlayerController : MonoBehaviour
             this.aimDirection *= aimDistanceFromCenter;
             this.aimGO.transform.localPosition = this.aimDirection;
         }
+    }
+    #endregion
+
+    #region Death
+    private void Death()
+    {
+        this.components.DesuscribeDeathAction(this.Death);
+        Destroy(this.gameObject);
     }
     #endregion
 }

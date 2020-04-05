@@ -19,6 +19,7 @@ public class EnemyController : MonoBehaviour
     private void Start()
     {
         this.InitStates();
+        this.m_Components.Health.SuscribeToDeathAction(this.Death);
     }
 
     private void Init()
@@ -35,6 +36,12 @@ public class EnemyController : MonoBehaviour
     private void InitStates()
     {
         this.states.InitStates(this.m_Components);
+    }
+
+    private void Death()
+    {
+        this.m_Components.Health.DesuscribeToDeathAction(this.Death);
+        Destroy(this.gameObject);
     }
 
 }
