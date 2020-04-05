@@ -365,7 +365,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Components: {fileID: 0}
-  movementSpeed: 600
+  movementSpeed: 700
 --- !u!114 &899640144480263809
 MonoBehaviour:
   m_ObjectHideFlags: 0

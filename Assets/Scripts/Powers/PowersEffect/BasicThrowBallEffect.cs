@@ -5,19 +5,27 @@ using UnityEngine;
 public class BasicThrowBallEffect : PowersEffect
 {
     public int attackPower;
-    public Collider ownCollider;
+    public override void InitCompoenents()
+    {
+        if (!this.isInit) {
+            this.isInit = true;
+            this.ownCollider = this.gameObject.GetComponent<Collider>();
+        }
+    }
 
     public override void InitEffect(Power data, CharacterComponents attacker)
     {
+        this.InitCompoenents();
         this.attackPower = data.attackPower;
         this.attacker = attacker;
-        ownCollider.enabled = false;
+        this.ownCollider.enabled = false;
         this.destroyDelay = new WaitForSeconds(this.aliveTime);
     }
 
+
     public override void StartToEffect()//Could use a coroutine for delay effect
     {
-        ownCollider.enabled = true;
+        this.ownCollider.enabled = true;
     }
 
     public override void TriggerPowerEffect() 
