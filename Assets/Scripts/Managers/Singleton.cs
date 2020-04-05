@@ -27,7 +27,6 @@ public class Singleton <T> : MonoBehaviour where T : MonoBehaviour
         GameObject newObject = new GameObject();
         instance = newObject.AddComponent<T>();
         newObject.name = instance.GetType().Name;
-        Debug.LogError(instance.GetType().Name);
         DontDestroyOnLoad(newObject);
     }
 

@@ -40,6 +40,7 @@ public class EnemyController : MonoBehaviour
 
     private void Death()
     {
+        EventManager.Instance.Trigger(new KilledEnemyEvent());
         this.m_Components.Health.DesuscribeToDeathAction(this.Death);
         Destroy(this.gameObject);
     }

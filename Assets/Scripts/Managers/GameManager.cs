@@ -19,6 +19,10 @@ public class GameManager : MonoBehaviour
     private bool isInit;
     private bool isPaused = false;
 
+
+    [Header("Rounds")]
+    private int enemiesCount;
+
     private void Awake()
     {
         if (instance == null) {
@@ -32,6 +36,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         this.Init();
+        EventManager.Instance.AddListener<KilledEnemyEvent>(this.OnKilledEnemyEvent);
     }
 
     private void Init()
@@ -39,6 +44,7 @@ public class GameManager : MonoBehaviour
         if (!this.isInit) {
             this.isInit = true;
             this.playerController = FindObjectOfType<PlayerController>();
+            this.enemiesCount = Env.START_ENEMIES_COUNT;
         }
     }
 
@@ -46,7 +52,6 @@ public class GameManager : MonoBehaviour
     {
         return this.playerController.gameObject.transform;
     }
-
 
     public void TogglePause()
     {
@@ -56,6 +61,32 @@ public class GameManager : MonoBehaviour
         {
             isPaused = this.isPaused
         });
+    }
+
+    #region Events
+    private void OnKilledEnemyEvent(KilledEnemyEvent e)
+    {
+        this.enemiesCount--;
+        if (this.enemiesCount <= 0) {
+            EventManager.Instance.Trigger(new GameFinishEvent
+            {
+                isWinner = true
+            });
+        }
+    }
+
+    #endregion
+
+    public void FinisGameContinue()
+    {
+        OwnSceneLoadManager.Instance.LoadScene("MainMenu");
+    }
+
+    private void OnDestroy()
+    {
+        if (EventManager.HasInstance()) {
+            EventManager.Instance.RemoveListener<KilledEnemyEvent>(this.OnKilledEnemyEvent);
+        }
     }
 
 }

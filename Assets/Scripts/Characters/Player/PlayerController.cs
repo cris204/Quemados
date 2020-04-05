@@ -134,6 +134,10 @@ public class PlayerController : MonoBehaviour
     #region Death
     private void Death()
     {
+        EventManager.Instance.Trigger(new GameFinishEvent
+        {
+            isWinner = false
+        });
         this.components.DesuscribeDeathAction(this.Death);
         Destroy(this.gameObject);
     }
