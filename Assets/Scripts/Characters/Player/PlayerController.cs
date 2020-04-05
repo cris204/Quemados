@@ -30,6 +30,10 @@ public class PlayerController : MonoBehaviour
         this.cameraMain = Camera.main;
     }
 
+    private void Start()
+    {
+        this.components.SuscribeDeathAction(this.Death);
+    }
     private void Update()
     {
         this.CheckUsingControl();
@@ -109,6 +113,14 @@ public class PlayerController : MonoBehaviour
                 this.aimDirection = new Vector3(this.aimGO.transform.localPosition.x - offset, 0, this.aimGO.transform.localPosition.z+ offset);
             }
         }
+    }
+    #endregion
+
+    #region Death
+    private void Death()
+    {
+        this.components.DesuscribeDeathAction(this.Death);
+        Destroy(this.gameObject);
     }
     #endregion
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,6 +8,8 @@ public class HealthComponent : MonoBehaviour
     public int initialHealth;
     public int maxHealth;
     public int currentlHealth;
+
+    private Action deathAction;
 
     public HealthComponent()
     {
@@ -20,6 +23,16 @@ public class HealthComponent : MonoBehaviour
         this.currentlHealth = this.initialHealth;
     }
 
+    public void SuscribeToDeathAction(Action action)
+    {
+        this.deathAction += action;
+    }
+
+    public void DesuscribeToDeathAction(Action action)
+    {
+        this.deathAction -= action;
+    }
+
     public int GetCurrentHealth()
     {
         return this.currentlHealth;
@@ -28,5 +41,8 @@ public class HealthComponent : MonoBehaviour
     public void SetHeatlh(int newHealth)
     {
         this.currentlHealth = newHealth;
+        if(this.currentlHealth == 0) {
+            this.deathAction?.Invoke();
+        }
     }
 }

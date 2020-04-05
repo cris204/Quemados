@@ -5,18 +5,27 @@ using UnityEngine;
 public class BasicThrowBallEffect : PowersEffect
 {
     public int attackPower;
-    public Collider collider;
+    public override void InitCompoenents()
+    {
+        if (!this.isInit) {
+            this.isInit = true;
+            this.ownCollider = this.gameObject.GetComponent<Collider>();
+        }
+    }
 
     public override void InitEffect(Power data, CharacterComponents attacker)
     {
+        this.InitCompoenents();
         this.attackPower = data.attackPower;
         this.attacker = attacker;
-        collider.enabled = false;
+        this.ownCollider.enabled = false;
+        this.destroyDelay = new WaitForSeconds(this.aliveTime);
     }
+
 
     public override void StartToEffect()//Could use a coroutine for delay effect
     {
-        collider.enabled = true;
+        this.ownCollider.enabled = true;
     }
 
     public override void TriggerPowerEffect() 
@@ -28,15 +37,28 @@ public class BasicThrowBallEffect : PowersEffect
     {
         int damage = this.attackPower + this.attacker.Attack.attackPower;
         int newHealt = Mathf.Clamp(this.victim.Health.currentlHealth - damage, 0, this.victim.Health.maxHealth);
-        this.victim.Health.SetHeatlh(newHealt); 
+        this.victim.Health.SetHeatlh(newHealt);
+        StartCoroutine(this.DestroyEffect());
     }
-    int colliders = 1;
     private void OnTriggerEnter(Collider other)
     {
         CharacterComponents components = other.GetComponent<CharacterComponents>();
         if(components != null) {
-            this.victim = components;
-            this.TriggerPowerEffect();
+            if(components != this.attacker) {
+                this.victim = components;
+                this.TriggerPowerEffect();
+            }
         }
+    }
+
+    private IEnumerator DestroyEffect()
+    {
+        yield return this.destroyDelay;
+        this.Destroy();
+    }
+
+    private void Destroy()
+    {
+        Destroy(this.gameObject);
     }
 }

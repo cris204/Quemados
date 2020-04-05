@@ -33,6 +33,16 @@ public class CharacterComponents : MonoBehaviour, IEqualityComparer<CharacterCom
         }
     }
 
+    public void SuscribeDeathAction(Action deathAction)
+    {
+        this.Health.SuscribeToDeathAction(deathAction);
+    }
+
+    public void DesuscribeDeathAction(Action deathAction)
+    {
+        this.Health.DesuscribeToDeathAction(deathAction);
+    }
+
     public bool Equals(CharacterComponents x, CharacterComponents y)
     {
         if(y == null) {

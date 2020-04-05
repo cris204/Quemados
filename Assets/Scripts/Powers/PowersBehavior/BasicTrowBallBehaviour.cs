@@ -65,10 +65,16 @@ public class BasicTrowBallBehaviour : PowersBehaviour
     private void CreateEffect()
     {
         BasicThrowBallEffect prefab = (BasicThrowBallEffect)ResourcesManager.Instance.GetPowerEffectPrefab(this.powerType);
-        this.effectPrefab = Instantiate(prefab.gameObject, this.gameObject.transform);
+        this.effectPrefab = Instantiate(prefab.gameObject);
         this.effectPrefab.transform.localPosition = Vector3.zero;
         this.m_Effect = this.effectPrefab.GetComponent<BasicThrowBallEffect>();
         this.m_Effect.InitEffect(PowersDataBase.GetPowerDataByType(this.powerType), this.attacker);
         this.m_Effect.StartToEffect();
+        this.Destroy();
+    }
+
+    protected override void Destroy()
+    {
+        Destroy(this.gameObject);
     }
 }
