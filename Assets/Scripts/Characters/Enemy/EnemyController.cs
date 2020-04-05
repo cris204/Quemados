@@ -8,6 +8,7 @@ public class EnemyController : MonoBehaviour
     private Rigidbody rigidbody;
     private Collider collider;
     private EnemyStatesController states;
+    private EnemyData data;
 
     private bool isInit;
 
@@ -26,6 +27,7 @@ public class EnemyController : MonoBehaviour
     {
         if (!this.isInit) {
             this.isInit = true;
+            this.TakeRandomData();
             this.m_Components = this.gameObject.GetComponent<CharacterComponents>();
             this.rigidbody = this.gameObject.GetComponent<Rigidbody>();
             this.collider = this.gameObject.GetComponent<Collider>();
@@ -33,9 +35,25 @@ public class EnemyController : MonoBehaviour
         }
     }
 
+    private void TakeRandomData()
+    {
+        int randomIndex = Random.Range(0, EnemiesDataBase.enemies.Count);
+        this.data = EnemiesDataBase.enemies[randomIndex];
+    }
+
+    public void ActiveEnemy()
+    {
+        this.states.SetIsActive(true);
+    }
+
+    public void DisactiveEnemy()
+    {
+        this.states.SetIsActive(false);
+    }
+
     private void InitStates()
     {
-        this.states.InitStates(this.m_Components);
+        this.states.InitStates(this.m_Components, this.data);
     }
 
     private void Death()

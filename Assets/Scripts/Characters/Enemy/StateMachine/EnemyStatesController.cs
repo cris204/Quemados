@@ -13,7 +13,10 @@ public class EnemyStatesController : MonoBehaviour
     private Transform currentTarget;
     private Transform ownTransform;
 
+    private EnemyData data;
+
     private bool isInit;
+    private bool isActive;
 
     private void Init()
     {
@@ -29,12 +32,20 @@ public class EnemyStatesController : MonoBehaviour
         }
     }
 
-    public void InitStates(CharacterComponents components)
+    public void InitStates(CharacterComponents components, EnemyData data)
     {
         this.Init();
+        this.data = data;
         this.moveState.m_Components = components;
         this.attackState.m_Components = components;
-       
+
+        this.distanceMovingAttack = data.distanceMovingAttack;
+        this.distanceStaticAttack = data.distanceStaticAttack;
+
+        this.moveState.movementSpeed = data.moveSpeed;
+        this.attackState.m_Components.Attack.attackPower = data.attackPower;
+
+
         this.ChangeMoveTarget(this.currentTarget);
         this.ChangeAttackTarget(this.currentTarget);
 
@@ -42,10 +53,22 @@ public class EnemyStatesController : MonoBehaviour
         this.attackState.ChangeOwnTransform(this.ownTransform);
     }
 
+    public void SetIsActive(bool value)
+    {
+        this.isActive = value;
+    }
+
     private void Update()
     {
         if (this.currentTarget == null)
             return;
+
+        if (!this.isActive) {
+            this.moveState.enabled = false;
+            this.attackState.enabled = false;
+            return;
+        }
+
         if(Vector3.Distance(this.currentTarget.position, this.ownTransform.position) > this.distanceMovingAttack) {
             this.moveState.enabled = true;
             this.attackState.enabled = false;

@@ -16,6 +16,9 @@ public class CanvasManager : MonoBehaviour
         }
     }
 
+    [Header("Start Game")]
+    public GameObject playButton;
+
     [Header("End Game")]
     public GameObject endGameContainer;
     public TextMeshProUGUI resultText;
@@ -35,6 +38,7 @@ public class CanvasManager : MonoBehaviour
     private void Start()
     {
         EventManager.Instance.AddListener<GameFinishEvent>(this.OnGameFinish);
+        EventSystem.current.SetSelectedGameObject(this.playButton);
     }
 
     #region Events
@@ -47,6 +51,12 @@ public class CanvasManager : MonoBehaviour
 
     #endregion
 
+    //Calling ByButton
+    public void PlayPressed()
+    {
+        GameManager.Instance.StartGame();
+        this.playButton.SetActive(false);
+    }
 
     private void OnDestroy()
     {

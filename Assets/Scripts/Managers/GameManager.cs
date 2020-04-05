@@ -54,6 +54,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void StartGame()
+    {
+        EventManager.Instance.Trigger(new StartGameEvent());
+    }
+
     public Transform GetPlayerTransform()
     {
         return this.playerController.gameObject.transform;

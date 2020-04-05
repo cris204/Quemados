@@ -16,4 +16,11 @@ public class ResourcesManager : Singleton<ResourcesManager>
         PowersEffect objectLoaded = Resources.Load<PowersEffect>("Prefabs/Powers/PowersEffect/" + name.ToString() + "Effect");
         return objectLoaded;
     }
+
+    public GameObject GetEnemy(string enemyId)
+    {
+        GameObject enemy = Resources.Load<GameObject>("Prefabs/Characters/Enemies/Enemy");
+        return enemy;
+
+    }
 }
