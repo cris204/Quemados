@@ -48,6 +48,7 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         this.CheckUsingControl();
+        this.PressPause();
     }
 
     #region Controls
@@ -60,7 +61,6 @@ public class PlayerController : MonoBehaviour
                 this.Actions = PlayerActions.CreateWithKeyboardBindings();
                 Env.IS_USING_KEYBOARD = true;
             }
-
         } else {
 
             if ((Input.GetMouseButtonDown(0) || InputManager.AnyKeyIsPressed) && !Env.IS_USING_KEYBOARD) {
@@ -105,7 +105,6 @@ public class PlayerController : MonoBehaviour
     private void Shoot()
     {
         this.components.Attack.Attack(PowerType.BasicThrowBall, this.components, this.aimDirection.normalized); //(playerController.aim.transform.position - transform.position).normalized
-        Debug.LogError("Shoot");
     }
     private void Aiming()
     {
@@ -139,4 +138,17 @@ public class PlayerController : MonoBehaviour
         Destroy(this.gameObject);
     }
     #endregion
+
+    #region Actions
+
+    public void PressPause()
+    {
+        if (Actions.pause.WasPressed) {
+            GameManager.Instance.TogglePause();
+        }
+    }
+
+    #endregion
+
+
 }

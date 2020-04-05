@@ -3,7 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-public class EventManager : MonoBehaviour
+public class EventManager : Singleton<EventManager>
 {
     private Dictionary<Type, EventDelegate> delegates = new Dictionary<Type, EventDelegate>();
     private Dictionary<Delegate, EventDelegate> delegateLookup = new Dictionary<Delegate, EventDelegate>();

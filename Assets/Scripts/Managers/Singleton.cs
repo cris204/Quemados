@@ -17,14 +17,17 @@ public class Singleton <T> : MonoBehaviour where T : MonoBehaviour
 
     public static void Init()
     {
-        CreateInstance();
+        if (instance == null) {
+            CreateInstance();
+        }
     }
 
     private static void CreateInstance()
     {
         GameObject newObject = new GameObject();
         instance = newObject.AddComponent<T>();
-        newObject.name = instance.ToString();
+        newObject.name = instance.GetType().Name;
+        Debug.LogError(instance.GetType().Name);
         DontDestroyOnLoad(newObject);
     }
 

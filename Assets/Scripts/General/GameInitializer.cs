@@ -7,5 +7,7 @@ public class GameInitializer : MonoBehaviour
     private void Awake()
     {
         ResourcesManager.Init();
+        OwnSceneLoadManager.Init();
+        EventManager.Init();
     }
 }
