@@ -22,6 +22,7 @@ public class PlayerActions : PlayerActionSet
 	//Actions
 	public PlayerAction shoot;
 	public PlayerAction pause;
+	public PlayerAction dash;
 
 
 	public PlayerActions()
@@ -43,6 +44,7 @@ public class PlayerActions : PlayerActionSet
 		//Actions
 		shoot = CreatePlayerAction("Shoot");
 		pause = CreatePlayerAction("Pause");
+		dash = CreatePlayerAction("Dash");
 	}
 
 	public static PlayerActions CreateWithKeyboardBindings()
@@ -69,6 +71,7 @@ public class PlayerActions : PlayerActionSet
 		//Actions
 		actions.shoot.AddDefaultBinding(Mouse.LeftButton); // we need to find the way to change this to left click button http://www.gallantgames.com/incontrol-api/html/class_in_control_1_1_mouse_binding_source.html this can help
 		actions.pause.AddDefaultBinding(Key.Escape);
+		actions.dash.AddDefaultBinding(Key.Space);
 		return actions;
 	}
 
@@ -97,6 +100,7 @@ public class PlayerActions : PlayerActionSet
 		//Actions
 		actions.shoot.AddDefaultBinding(InputControlType.RightTrigger);
 		actions.pause.AddDefaultBinding(InputControlType.Command);
+		actions.pause.AddDefaultBinding(InputControlType.LeftTrigger);
 
 		return actions;
 	}
