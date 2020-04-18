@@ -1,12 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class EnemiesSpawner : MonoBehaviour
 {
 
     public Vector3 center;
     public Vector3 size;
+    public List<GameObject> spawnPoints;
     private GameObject enemyPrefab;
     private List<EnemyController> enemiesSpawned = new List<EnemyController>();
 
@@ -26,14 +28,32 @@ public class EnemiesSpawner : MonoBehaviour
         if(this.enemyPrefab == null) {
             this.enemyPrefab = ResourcesManager.Instance.GetEnemy("1");
         }
+        this.SpawnEnemiesInSpawnPoint(e.enemiesCount);
+    }
 
-        for (int i = 0; i < e.enemiesCount; i++) {
-            Vector3 pos = center + new Vector3(Random.Range(-size.x / 2, size.x / 2), 0, Random.Range(-size.z / 2, size.z / 2));
-            GameObject enemySpawned = Instantiate(enemyPrefab, pos, Quaternion.identity);
-            EnemyController newEnemy = enemySpawned.GetComponent<EnemyController>();
-            newEnemy.DisactiveEnemy();
-            enemiesSpawned.Add(newEnemy);
+    private void SpawnEnemiesInSpawnPoint(int enemiesCount)
+    {
+        int randomIndex = 0;
+        for (int i = 0; i < enemiesCount; i++) {
+            randomIndex = Random.Range(0, this.spawnPoints.Count);
+            this.SpawnEnemy(this.spawnPoints[randomIndex].transform.position);
         }
+    }
+
+    private void SpawnEnemiesInArea(int enemiesCount)
+    {
+        for (int i = 0; i < enemiesCount; i++) {
+            Vector3 pos = center + new Vector3(Random.Range(-size.x / 2, size.x / 2), 0, Random.Range(-size.z / 2, size.z / 2));
+            this.SpawnEnemy(pos);
+        }
+    }
+
+    private void SpawnEnemy(Vector3 spawnPosition)
+    {
+        GameObject enemySpawned = Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);
+        EnemyController newEnemy = enemySpawned.GetComponent<EnemyController>();
+        newEnemy.DisactiveEnemy();
+        enemiesSpawned.Add(newEnemy);
     }
 
     private void StartGame(StartGameEvent e)

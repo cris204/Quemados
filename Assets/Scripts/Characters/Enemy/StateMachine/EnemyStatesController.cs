@@ -16,15 +16,15 @@ public class EnemyStatesController : MonoBehaviour
     private EnemyData data;
 
     private bool isInit;
-    private bool isActive;
+    public bool isActive;
 
     private void Init()
     {
         if (!this.isInit) {
             this.isInit = true;
             this.currentTarget = GameManager.Instance.GetPlayerTransform(); 
-            this.moveState = this.gameObject.GetComponent<EnemyMoveState>();
-            this.attackState = this.gameObject.GetComponent<EnemyAttackState>();
+            this.moveState = this.gameObject.AddComponent<EnemyMoveState>();
+            this.attackState = this.gameObject.AddComponent<EnemyAttackState>();
             this.ownTransform = this.gameObject.transform;
 
             this.moveState.enabled = false;

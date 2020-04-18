@@ -17,7 +17,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("Aim")]
     public GameObject aimGO;
-    private float aimDistanceFromCenter = 3.5f;
+    private float aimDistanceFromCenter = 12f;
     private Vector3 aimDirection;
     private Vector3 mousePos;
     private Camera cameraMain;

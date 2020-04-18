@@ -1,44 +1,66 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class EnemyMoveState : EnemyState
 {
     public float movementSpeed;
+    private NavMeshAgent navAgent;
     private Rigidbody rigidbody;
 
     private bool canMove;
 
+    private float checkUpdateTimer;
+    private const int timeToUpdateTarget = 1;
+
     void Awake()
     {
         this.rigidbody = this.gameObject.GetComponent<Rigidbody>();
+        this.navAgent = this.gameObject.GetComponent<NavMeshAgent>();
+        this.navAgent.updateRotation = false;
         this.canMove = false;
     }
-
-    private void Update()
+    private void Start()
     {
-        this.CheckCanMove();
+        this.navAgent.speed = this.movementSpeed;
     }
 
-    void FixedUpdate()
+    public override void ChangeMoveTarget(Transform newTarget)
     {
-        if (this.canMove) {
-            this.Move();
-        }
+        base.ChangeMoveTarget(newTarget);
+        this.navAgent.SetDestination(newTarget.position);
+    }
+
+    void Update()
+    {
+        this.CheckCanMove();
+        //if(this.checkUpdateTimer < Time.time) {
+            this.checkUpdateTimer = Time.time + timeToUpdateTarget;
+            if (this.canMove) {
+                this.Move();
+            }
+        //}
+    }
+
+    private void OnEnable()
+    {
+        this.navAgent.isStopped = false;
     }
 
     private void OnDisable()
     {
         this.rigidbody.velocity = Vector3.zero;
+        this.navAgent.isStopped = true;
     }
 
     private void Move()
     {
-      
-        
-        Vector3 moveVector = (this.moveTarget.position - this.ownTransform.position).normalized;
-        moveVector.y = 0;
-        this.rigidbody.velocity = moveVector * this.movementSpeed * Time.fixedDeltaTime;
+        this.navAgent.SetDestination(this.moveTarget.position);
+
+        //Vector3 moveVector = (this.moveTarget.position - this.ownTransform.position).normalized;
+        //moveVector.y = 0;
+        //this.rigidbody.velocity = moveVector * this.movementSpeed * Time.fixedDeltaTime;
     }
 
     private void CheckCanMove()

@@ -14,7 +14,7 @@ public class EnemyState : MonoBehaviour
         this.attackTarget = newTarget;
     }
 
-    public void ChangeMoveTarget(Transform newTarget)
+    public virtual void ChangeMoveTarget(Transform newTarget)
     {
         this.moveTarget = newTarget;
     }
