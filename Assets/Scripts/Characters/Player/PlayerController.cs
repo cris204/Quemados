@@ -23,6 +23,9 @@ public class PlayerController : MonoBehaviour
     private Camera cameraMain;
     public float offset; //Probs we need offset in X and Z, in this case I use the same cuz I added the same offset in SpawnPoint position
 
+    [Header("Dash")]
+    public DashComponent playerDash;
+    private bool isDashing;
 
     void Awake()
     {
@@ -46,6 +49,7 @@ public class PlayerController : MonoBehaviour
 
         this.components.character = this.character;
         this.components.SuscribeDeathAction(this.Death);
+        this.SetDashAction();
     }
     private void Update()
     {
@@ -86,8 +90,11 @@ public class PlayerController : MonoBehaviour
             this.Movement();
             this.Aiming();
 
-            if (Actions.shoot) { // this works weird, I think we need to remove the WasPressed and use a delay
+            if (Actions.shoot.WasPressed) {
                 this.Shoot();
+            }
+            if (Actions.dash) {
+                this.Dash();
             }
         }
     }
@@ -95,11 +102,12 @@ public class PlayerController : MonoBehaviour
     #region Movement
     private void Movement()
     {
-        horizontal = this.Actions.move.X;
-        vertical = this.Actions.move.Y;
-        inputDirection = new Vector3(horizontal,0, vertical).normalized;
-        rb.velocity = inputDirection * speed * Time.fixedDeltaTime;
-
+        if (!this.isDashing) {
+            horizontal = this.Actions.move.X;
+            vertical = this.Actions.move.Y;
+            inputDirection = new Vector3(horizontal, 0, vertical).normalized;
+            rb.velocity = inputDirection * speed * Time.fixedDeltaTime;
+        }
     }
     #endregion
 
@@ -154,7 +162,26 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+
     #endregion
 
+    #region Dash
+
+    public void SetDashAction()
+    {
+        this.playerDash.OnDashAction = this.ToggleDash;
+    }
+
+    public void Dash()
+    {
+       this.playerDash.TriggerDash(this.rb);
+    }
+
+    public void ToggleDash(bool isDashing)
+    {
+        this.isDashing = isDashing;
+    }
+
+    #endregion
 
 }
