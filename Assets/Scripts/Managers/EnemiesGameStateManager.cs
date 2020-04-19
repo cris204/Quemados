@@ -36,15 +36,15 @@ public class EnemiesGameStateManager : MonoBehaviour
     }
 
 }
+public enum HideOutOrientation
+{
+    XAxis,
+    ZAxis,
+    BothAxis,
+}
 
 public class EnemyHideOut : MonoBehaviour
 {
-    public enum HideOutOrientation
-    {
-        XAxis,
-        ZAxis,
-        BothAxis,
-    }
 
     public int spacesToHide;
     public int spacesToHideOccupied;
