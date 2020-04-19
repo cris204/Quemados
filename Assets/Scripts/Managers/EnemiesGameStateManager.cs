@@ -24,6 +24,13 @@ public class EnemiesGameStateManager : MonoBehaviour
 
 }
 
+public class EnemyHideOut : MonoBehaviour
+{
+    public int spacesToHide;
+    public int spacesToHideOccupied;
+
+}
+
 public enum EnemyBehaviourState { 
     Agressive,
     Normal,
