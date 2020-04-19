@@ -11,6 +11,8 @@ public class EnemiesGameStateManager : MonoBehaviour
         }
     }
 
+    public List<EnemyHideOut> hideOutList;
+
     private void Awake()
     {
         if (instance == null) {
@@ -21,6 +23,17 @@ public class EnemiesGameStateManager : MonoBehaviour
         }
     }
 
+    //Could receive a position to search the near hideout
+    public EnemyHideOut GetHideOut()
+    {
+        for (int i = 0; i < this.hideOutList.Count; i++) {
+            if (this.hideOutList[i].HasFreeSpaces()) {
+                this.hideOutList[i].OcuppyHideOut();
+                return this.hideOutList[i];
+            }
+        }
+        return null;
+    }
 
 }
 
@@ -41,6 +54,11 @@ public class EnemyHideOut : MonoBehaviour
     private void Awake()
     {
         this.physicalGO = this.gameObject;
+    }
+
+    public GameObject GetHideOutObject()
+    {
+        return this.physicalGO;
     }
 
     public bool HasFreeSpaces()
