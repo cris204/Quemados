@@ -15,6 +15,7 @@ public class CharacterComponents : MonoBehaviour, IEqualityComparer<CharacterCom
 
     private HealthComponent m_Health;
     private AttackComponent m_Attack;
+    private DashComponent m_Dash;
 
     public CharacterType character;
 
@@ -22,6 +23,7 @@ public class CharacterComponents : MonoBehaviour, IEqualityComparer<CharacterCom
 
     public HealthComponent Health { get => m_Health;}
     public AttackComponent Attack { get => m_Attack;}
+    public DashComponent Dash { get => m_Dash;}
 
     private void Awake()
     {
@@ -37,6 +39,7 @@ public class CharacterComponents : MonoBehaviour, IEqualityComparer<CharacterCom
             this.isInit = true;
             this.m_Health = GetComponent<HealthComponent>();
             this.m_Attack = GetComponent<AttackComponent>();
+            this.m_Dash = GetComponent<DashComponent>();
         }
     }
 

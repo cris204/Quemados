@@ -11,6 +11,12 @@ public class DashComponent : MonoBehaviour
     public float dashSpeed;
     public Action<bool> OnDashAction;
 
+    public DashComponent()
+    {
+        this.dashDuration = 0.1f;
+        this.dashSpeed = 4;
+    }
+
     public void TriggerDash(Rigidbody rb)
     {
         if (this.canDash) {

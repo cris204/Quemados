@@ -23,8 +23,6 @@ public class PlayerController : MonoBehaviour
     private Camera cameraMain;
     public float offset; //Probs we need offset in X and Z, in this case I use the same cuz I added the same offset in SpawnPoint position
 
-    [Header("Dash")]
-    public DashComponent playerDash;
     private bool isDashing;
 
     void Awake()
@@ -169,12 +167,12 @@ public class PlayerController : MonoBehaviour
 
     public void SetDashAction()
     {
-        this.playerDash.OnDashAction = this.ToggleDash;
+        this.components.Dash.OnDashAction = this.ToggleDash;
     }
 
     public void Dash()
     {
-       this.playerDash.TriggerDash(this.rb);
+       this.components.Dash.TriggerDash(this.rb);
     }
 
     public void ToggleDash(bool isDashing)
