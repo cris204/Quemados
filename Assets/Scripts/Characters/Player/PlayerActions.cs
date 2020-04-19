@@ -100,7 +100,7 @@ public class PlayerActions : PlayerActionSet
 		//Actions
 		actions.shoot.AddDefaultBinding(InputControlType.RightTrigger);
 		actions.pause.AddDefaultBinding(InputControlType.Command);
-		actions.pause.AddDefaultBinding(InputControlType.LeftTrigger);
+		actions.dash.AddDefaultBinding(InputControlType.LeftTrigger);
 
 		return actions;
 	}
