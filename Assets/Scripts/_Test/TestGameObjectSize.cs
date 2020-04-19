@@ -19,7 +19,7 @@ public class TestGameObjectSize : MonoBehaviour
         //Debug.Log(gameObjectGO.GetComponent<Renderer>().bounds.size.x);
     }
 
-    public void MoveObjectToPositionWithScale()
+    public void MoveObjectToPositionWithScale() ///Same code, just changed render bound for scale
     {
         int availablePositions = 0;
         if (this.orientation == HideOutOrientation.ZAxis) {
