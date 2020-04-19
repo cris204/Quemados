@@ -27,8 +27,8 @@ public class EnemyStatesController : MonoBehaviour
             this.attackState = this.gameObject.AddComponent<EnemyAttackState>();
             this.ownTransform = this.gameObject.transform;
 
-            this.moveState.enabled = false;
-            this.attackState.enabled = false;
+            this.moveState.ExitState();
+            this.attackState.ExitState();
         }
     }
 
@@ -64,20 +64,20 @@ public class EnemyStatesController : MonoBehaviour
             return;
 
         if (!this.isActive) {
-            this.moveState.enabled = false;
-            this.attackState.enabled = false;
+            this.moveState.ExitState();
+            this.attackState.ExitState();
             return;
         }
 
         if(Vector3.Distance(this.currentTarget.position, this.ownTransform.position) > this.distanceMovingAttack) {
-            this.moveState.enabled = true;
-            this.attackState.enabled = false;
+            this.moveState.EnterState();
+            this.attackState.ExitState();
         }else if (Vector3.Distance(this.currentTarget.position, this.ownTransform.position) > this.distanceStaticAttack) {
-            this.moveState.enabled = true;
-            this.attackState.enabled = true;
+            this.moveState.EnterState();
+            this.attackState.EnterState();
         } else {
-            this.moveState.enabled = false;
-            this.attackState.enabled = true;
+            this.moveState.ExitState();
+            this.attackState.EnterState();
         }
     }
 

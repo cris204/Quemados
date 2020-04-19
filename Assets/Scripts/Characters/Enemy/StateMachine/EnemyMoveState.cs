@@ -32,24 +32,28 @@ public class EnemyMoveState : EnemyState
         this.navAgent.SetDestination(newTarget.position);
     }
 
-    void Update()
+    public override void EnterState()
     {
+        base.EnterState();
+        this.navAgent.isStopped = false;
+        this.UpdateState();
+    }
+
+    public override void UpdateState()
+    {
+        base.UpdateState();
         this.CheckCanMove();
-        //if(this.checkUpdateTimer < Time.time) {
+        if (this.checkUpdateTimer < Time.time) {
             this.checkUpdateTimer = Time.time + timeToUpdateTarget;
             if (this.canMove) {
                 this.Move();
             }
-        //}
+        }
     }
 
-    private void OnEnable()
+    public override void ExitState()
     {
-        this.navAgent.isStopped = false;
-    }
-
-    private void OnDisable()
-    {
+        base.ExitState();
         this.rigidbody.velocity = Vector3.zero;
         this.navAgent.isStopped = true;
     }
