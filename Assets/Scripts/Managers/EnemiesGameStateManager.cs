@@ -26,8 +26,37 @@ public class EnemiesGameStateManager : MonoBehaviour
 
 public class EnemyHideOut : MonoBehaviour
 {
+    public enum HideOutOrientation
+    {
+        XAxis,
+        ZAxis,
+        BothAxis,
+    }
+
     public int spacesToHide;
     public int spacesToHideOccupied;
+    public HideOutOrientation orientation;
+    private GameObject physicalGO;
+
+    private void Awake()
+    {
+        this.physicalGO = this.gameObject;
+    }
+
+    public bool HasFreeSpaces()
+    {
+        return this.spacesToHideOccupied < this.spacesToHide;
+    }
+
+    public void OcuppyHideOut()
+    {
+        this.spacesToHideOccupied++;
+    }
+
+    public void SetFreeSpace()
+    {
+        this.spacesToHideOccupied--;
+    }
 
 }
 

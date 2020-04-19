@@ -5,7 +5,7 @@ using System;
 
 public class DashComponent : MonoBehaviour
 {
-    private float dashDelay=1;
+    private float dashDelay=0.5f;
     public float dashDuration=1;
     private bool canDash=true;
     public float dashSpeed;
