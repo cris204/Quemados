@@ -7,8 +7,16 @@ using Random = System.Random;
 public class EnemyAttackState : EnemyState
 {
     private Vector3 aimDirection;
-    private void Update()
+
+    public override void EnterState()
     {
+        base.EnterState();
+        this.UpdateState();
+    }
+
+    public override void UpdateState()
+    {
+        base.UpdateState();
         this.Attack();
     }
 

@@ -171,6 +171,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2973885505333408831}
+  - component: {fileID: 7316945313581258523}
   - component: {fileID: 2973885505333408829}
   - component: {fileID: 1702917471801103604}
   - component: {fileID: 1666209431793899602}
@@ -179,8 +180,6 @@ GameObject:
   - component: {fileID: 899640144250148950}
   - component: {fileID: 899640144480263810}
   - component: {fileID: 899640144480263811}
-  - component: {fileID: 899640144480263808}
-  - component: {fileID: 899640144480263809}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -204,6 +203,28 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!195 &7316945313581258523
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2973885505333408818}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 1.86
+  m_Speed: 3.5
+  m_Acceleration: 100
+  avoidancePriority: 50
+  m_AngularSpeed: 186.2
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 5.12
+  m_BaseOffset: 2.56
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!212 &2973885505333408829
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -275,11 +296,11 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2973885505333408818}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 15.85
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 0
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 116
   m_CollisionDetection: 0
@@ -353,32 +374,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10a7f912041b6b0438ed0294d4d531ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  distanceStaticAttack: 15
-  distanceMovingAttack: 30
---- !u!114 &899640144480263808
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2973885505333408818}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 59942b69694d0b345b4cd3bbe46766d5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Components: {fileID: 0}
-  movementSpeed: 700
---- !u!114 &899640144480263809
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2973885505333408818}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3b543f45d8f59704cbca01f490141bfd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Components: {fileID: 0}
+  distanceStaticAttack: 10000
+  distanceMovingAttack: 0
+  isActive: 0

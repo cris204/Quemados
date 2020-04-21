@@ -51,7 +51,7 @@ public class AttackComponent : MonoBehaviour
         else{
             this.attackCoolDown = newCoolDown;
         }
-        this.attackDelay = new WaitForSeconds(newCoolDown);
+        this.attackDelay = new WaitForSeconds(this.attackCoolDown);
     }
 
     public void Attack(PowerType powerType, CharacterComponents attacker, Vector3 direction)
