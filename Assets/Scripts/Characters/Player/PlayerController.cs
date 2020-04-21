@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
     private float vertical;
     private Vector3 inputDirection;
     private Rigidbody rb;
+    private Animator playerAnim;
     [SerializeField] private float speed=300;
     public PlayerActions Actions { get; set; }
 
@@ -30,6 +31,7 @@ public class PlayerController : MonoBehaviour
     void Awake()
     {
         this.rb = this.GetComponent<Rigidbody>();
+        this.playerAnim = this.GetComponent<Animator>();
         this.aimDirection = new Vector3(aimDistanceFromCenter,0,0);
         this.cameraMain = Camera.main;
     }
@@ -107,6 +109,13 @@ public class PlayerController : MonoBehaviour
             vertical = this.Actions.move.Y;
             inputDirection = new Vector3(horizontal, 0, vertical).normalized;
             rb.velocity = inputDirection * speed * Time.fixedDeltaTime;
+
+            if (this.rb.velocity.magnitude != 0) {
+                this.playerAnim.SetFloat("MoveMagnitude", this.aimGO.transform.localPosition.magnitude - Vector3.Distance(rb.velocity,this.aimGO.transform.localPosition));
+            } else {
+                this.playerAnim.SetFloat("MoveMagnitude", this.rb.velocity.magnitude);
+            }
+
         }
     }
     #endregion
@@ -138,6 +147,9 @@ public class PlayerController : MonoBehaviour
                 this.aimDirection = new Vector3(this.aimGO.transform.localPosition.x - offset, 0, this.aimGO.transform.localPosition.z+ offset);
             }
         }
+
+        this.playerAnim.SetFloat("AimSpeedX", this.aimDirection.x);
+        this.playerAnim.SetFloat("AimSpeedZ", this.aimDirection.z);
     }
     #endregion
 
