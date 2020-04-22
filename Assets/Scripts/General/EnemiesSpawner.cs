@@ -17,12 +17,6 @@ public class EnemiesSpawner : MonoBehaviour
         EventManager.Instance.AddListener<SpawnEnemiesEvent>(this.SpawnEnemies); //Sometimes it is not suscribing in time, could be another solution than put it in Awake
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        EventManager.Instance.AddListener<StartGameEvent>(this.StartGame);
-    }
-
     public void SpawnEnemies(SpawnEnemiesEvent e)
     {
         if(this.enemyPrefab == null) {
@@ -54,20 +48,17 @@ public class EnemiesSpawner : MonoBehaviour
         EnemyController newEnemy = enemySpawned.GetComponent<EnemyController>();
         newEnemy.DisactiveEnemy();
         enemiesSpawned.Add(newEnemy);
+        newEnemy.ActiveEnemy();
+        RoundsManager.Instance.PlusEnemies();
     }
 
-    private void StartGame(StartGameEvent e)
-    {
-        for (int i = 0; i < this.enemiesSpawned.Count; i++) {
-            this.enemiesSpawned[i].ActiveEnemy();
-        }
-    }
+
 
     private void OnDestroy()
     {
         if (EventManager.HasInstance()) {
             EventManager.Instance.RemoveListener<SpawnEnemiesEvent>(this.SpawnEnemies);
-            EventManager.Instance.RemoveListener<StartGameEvent>(this.StartGame);
+
         }
     }
 
