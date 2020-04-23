@@ -2,6 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum GameState
+{
+    start,
+    preparing,
+    playing,
+    ended
+}
 public class GameManager : MonoBehaviour
 {
 
@@ -44,7 +51,10 @@ public class GameManager : MonoBehaviour
 
     public void StartGame()
     {
-        EventManager.Instance.Trigger(new StartGameEvent());
+        EventManager.Instance.Trigger(new ChangeGameStateEvent
+        {
+            currentGameState=GameState.start,
+        });
     }
 
     public Transform GetPlayerTransform()

@@ -44,7 +44,7 @@ public class RoundsManager : MonoBehaviour
     private void Start()
     {
         EventManager.Instance.AddListener<KilledEnemyEvent>(this.OnKilledEnemyEvent);
-        EventManager.Instance.AddListener<StartGameEvent>(this.StartGame);
+        EventManager.Instance.AddListener<ChangeGameStateEvent>(this.StartGame);
         this.totalEnemiesRound = Env.INITIAL_ENEMIES_ROUND;
     }
 
@@ -86,7 +86,7 @@ public class RoundsManager : MonoBehaviour
     public void WinCondition()
     {
         if (this.enemiesKilled >= this.totalEnemiesRound) {
-            Debug.LogError("Finish");
+            EventManager.Instance.Trigger(new OnNextRoundEvent());
         }
     }
 
@@ -97,16 +97,18 @@ public class RoundsManager : MonoBehaviour
         this.enemiesKilled++;
         this.WinCondition();
     }
-    private void StartGame(StartGameEvent e)
+    private void StartGame(ChangeGameStateEvent e)
     {
-        this.isStartedGame = true;
+        if (e.currentGameState == GameState.start) {
+            this.isStartedGame = true;
+        }
     }
     #endregion
     private void OnDestroy()
     {
         if (EventManager.HasInstance()) {
             EventManager.Instance.RemoveListener<KilledEnemyEvent>(this.OnKilledEnemyEvent);
-            EventManager.Instance.RemoveListener<StartGameEvent>(this.StartGame);
+            EventManager.Instance.RemoveListener<ChangeGameStateEvent>(this.StartGame);
         }
     }
 }
