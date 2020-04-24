@@ -4,6 +4,7 @@ using UnityEngine;
 
 public enum GameState
 {
+    pending,
     start,
     preparing,
     playing,
@@ -39,6 +40,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         this.Init();
+        EventManager.Instance.AddListener<OnNextRoundEvent>(this.NextRound);
     }
 
     private void Init()
@@ -53,7 +55,7 @@ public class GameManager : MonoBehaviour
     {
         EventManager.Instance.Trigger(new ChangeGameStateEvent
         {
-            currentGameState=GameState.start,
+            currentGameState=GameState.playing,
         });
     }
 
@@ -76,4 +78,36 @@ public class GameManager : MonoBehaviour
     {
         OwnSceneLoadManager.Instance.LoadScene("MainMenu");
     }
+
+    #region Events
+
+    public void NextRound(OnNextRoundEvent e)
+    {
+        EventManager.Instance.Trigger(new ChangeGameStateEvent
+        {
+            currentGameState = GameState.preparing,
+        });
+
+        StartCoroutine(this.WaitToNextRound());
+    }
+
+    #endregion
+
+
+    private IEnumerator WaitToNextRound()
+    {
+        yield return new WaitForSeconds(3);
+        EventManager.Instance.Trigger(new ChangeGameStateEvent
+        {
+            currentGameState = GameState.playing,
+        });
+    }
+
+    private void OnDestroy()
+    {
+        if (EventManager.HasInstance()) {
+            EventManager.Instance.RemoveListener<OnNextRoundEvent>(this.NextRound);
+        }
+    }
+
 }

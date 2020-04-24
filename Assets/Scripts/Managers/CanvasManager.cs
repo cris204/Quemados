@@ -24,6 +24,12 @@ public class CanvasManager : MonoBehaviour
     public TextMeshProUGUI resultText;
     public GameObject continueButton;
 
+    [Header("Rounds")]
+    public GameObject finishRoundContainer;
+
+    [Header("Timer")]
+    public TextMeshProUGUI timerTxt;
+    private float currentTime;
 
     private void Awake()
     {
@@ -38,6 +44,7 @@ public class CanvasManager : MonoBehaviour
     private void Start()
     {
         EventManager.Instance.AddListener<GameFinishEvent>(this.OnGameFinish);
+        EventManager.Instance.AddListener<OnNextRoundEvent>(this.NextRound);
         EventSystem.current.SetSelectedGameObject(this.playButton);
     }
 
@@ -48,7 +55,32 @@ public class CanvasManager : MonoBehaviour
         this.resultText.text = e.isWinner ? "Winner" : "Defeat";
         EventSystem.current.SetSelectedGameObject(continueButton);
     }
+    public void NextRound(OnNextRoundEvent e)
+    {
+        this.finishRoundContainer.SetActive(true);
+        StartCoroutine(this.TurnOffRoundContainer());
+    }
+    #endregion
 
+    public void ChangeTimer()
+    {
+        this.timerTxt.text = currentTime.ToString("F0");
+    }
+
+    #region Coroutines
+    public IEnumerator TurnOffRoundContainer()
+    {
+        yield return new WaitForSeconds(0.5f);
+        this.finishRoundContainer.SetActive(false);
+    }
+    public IEnumerator ChangeTimerCoroutine()
+    {
+        while (this.currentTime > 0) {
+            this.currentTime -= Time.deltaTime;
+            this.ChangeTimer();
+            yield return null;
+        }
+    }
     #endregion
 
     //Calling ByButton
@@ -62,6 +94,7 @@ public class CanvasManager : MonoBehaviour
     {
         if (EventManager.HasInstance()) {
             EventManager.Instance.RemoveListener<GameFinishEvent>(this.OnGameFinish);
+            EventManager.Instance.RemoveListener<OnNextRoundEvent>(this.NextRound);
         }
     }
 

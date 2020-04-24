@@ -13,7 +13,7 @@ public class RoundsManager : MonoBehaviour
         }
     }
     [Header("Game Status")]
-    private bool isStartedGame;
+    private GameState currentGameState;
 
     [Header("Enemies Spawn")]
     private int enemiesCount;
@@ -24,6 +24,8 @@ public class RoundsManager : MonoBehaviour
     private int enemiesToSpawnCount = 1;
     private float enemySpawnDelay = 2;
     private float enemySpawnCurrentTime = 0;
+
+    private int roundsCount = 0;
 
     private void Awake()
     {
@@ -45,12 +47,12 @@ public class RoundsManager : MonoBehaviour
     {
         EventManager.Instance.AddListener<KilledEnemyEvent>(this.OnKilledEnemyEvent);
         EventManager.Instance.AddListener<ChangeGameStateEvent>(this.StartGame);
-        this.totalEnemiesRound = Env.INITIAL_ENEMIES_ROUND;
+        this.SetNextRound();
     }
 
     private void Update()
     {
-        if (this.isStartedGame) {
+        if (this.currentGameState==GameState.playing || this.currentGameState == GameState.start) {
             this.SpawnEnemy();
         }
 
@@ -78,16 +80,24 @@ public class RoundsManager : MonoBehaviour
         this.enemySpawnCurrentTime += Time.deltaTime;
     }
 
-    public void UpgradeRound()
-    {
-        this.enemiesToSpawnCount += 2;
-    }
-
     public void WinCondition()
     {
         if (this.enemiesKilled >= this.totalEnemiesRound) {
+
             EventManager.Instance.Trigger(new OnNextRoundEvent());
+            this.SetNextRound();
         }
+    }
+
+    public void SetNextRound()
+    {
+        this.enemiesCount = 0;
+        this.enemiesKilled = 0;
+        this.enemiesSpawned = 0;
+        this.totalEnemiesRound = Env.INITIAL_ENEMIES_ROUND + (this.roundsCount * Env.PLUS_ENEMIES_PER_ROUND);
+        this.enemiesToSpawnCount++;
+        this.enemySpawnCurrentTime = 0;
+        this.roundsCount++;
     }
 
     #region Events
@@ -99,10 +109,9 @@ public class RoundsManager : MonoBehaviour
     }
     private void StartGame(ChangeGameStateEvent e)
     {
-        if (e.currentGameState == GameState.start) {
-            this.isStartedGame = true;
-        }
+        this.currentGameState = e.currentGameState;
     }
+
     #endregion
     private void OnDestroy()
     {
