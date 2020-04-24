@@ -2547,7 +2547,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &804873079
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5555,8 +5555,8 @@ MonoBehaviour:
   endGameContainer: {fileID: 1381735800}
   resultText: {fileID: 2088058226}
   continueButton: {fileID: 831159211}
-  finishRoundContainer: {fileID: 0}
-  timerTxt: {fileID: 0}
+  finishRoundContainer: {fileID: 804873078}
+  timerTxt: {fileID: 536633756}
 --- !u!1 &1647035993
 GameObject:
   m_ObjectHideFlags: 0
@@ -6840,6 +6840,18 @@ PrefabInstance:
     - target: {fileID: 1172821223, guid: 8cc87f860633f9c438f1786b33efcb5f, type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1259099511, guid: 8cc87f860633f9c438f1786b33efcb5f, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1259099511, guid: 8cc87f860633f9c438f1786b33efcb5f, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1259099511, guid: 8cc87f860633f9c438f1786b33efcb5f, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1973624847482635981, guid: 8cc87f860633f9c438f1786b33efcb5f,
         type: 3}

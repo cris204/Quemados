@@ -29,7 +29,6 @@ public class CanvasManager : MonoBehaviour
 
     [Header("Timer")]
     public TextMeshProUGUI timerTxt;
-    private float currentTime;
 
     private void Awake()
     {
@@ -61,10 +60,9 @@ public class CanvasManager : MonoBehaviour
         StartCoroutine(this.TurnOffRoundContainer());
     }
     #endregion
-
-    public void ChangeTimer()
+    public void ChangeTimer(string currentTime)
     {
-        this.timerTxt.text = currentTime.ToString("F0");
+        this.timerTxt.text = currentTime;
     }
 
     #region Coroutines
@@ -72,14 +70,6 @@ public class CanvasManager : MonoBehaviour
     {
         yield return new WaitForSeconds(0.5f);
         this.finishRoundContainer.SetActive(false);
-    }
-    public IEnumerator ChangeTimerCoroutine()
-    {
-        while (this.currentTime > 0) {
-            this.currentTime -= Time.deltaTime;
-            this.ChangeTimer();
-            yield return null;
-        }
     }
     #endregion
 

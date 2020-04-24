@@ -26,7 +26,16 @@ public class GameManager : MonoBehaviour
 
     private bool isInit;
     private bool isPaused = false;
+    private GameState curretGameState;
 
+    [Header("Time")]
+    private float currentTime;
+    private string timeString;
+
+    public Transform GetPlayerTransform()
+    {
+        return this.playerController.gameObject.transform;
+    }
     private void Awake()
     {
         if (instance == null) {
@@ -36,11 +45,11 @@ public class GameManager : MonoBehaviour
             return;
         }
     }
-
     private void Start()
     {
         this.Init();
         EventManager.Instance.AddListener<OnNextRoundEvent>(this.NextRound);
+        EventManager.Instance.AddListener<ChangeGameStateEvent>(this.ChangeGameState);
     }
 
     private void Init()
@@ -59,9 +68,20 @@ public class GameManager : MonoBehaviour
         });
     }
 
-    public Transform GetPlayerTransform()
+    private void Update()
     {
-        return this.playerController.gameObject.transform;
+        if (this.curretGameState == GameState.playing) {
+            this.currentTime += Time.deltaTime;
+        }else if(this.curretGameState == GameState.preparing) {
+            this.currentTime -= Time.deltaTime;
+            if (this.currentTime < 0) {
+                EventManager.Instance.Trigger(new ChangeGameStateEvent
+                {
+                    currentGameState = GameState.playing,
+                });
+            }
+        }
+        CanvasManager.Instance.ChangeTimer(string.Format("{0}{1}",this.timeString, this.currentTime.ToString("F0")));
     }
 
     public void TogglePause()
@@ -87,26 +107,26 @@ public class GameManager : MonoBehaviour
         {
             currentGameState = GameState.preparing,
         });
+        this.currentTime = Env.TIME_BETWEEN_ROUNDS;
+    }
 
-        StartCoroutine(this.WaitToNextRound());
+    private void ChangeGameState(ChangeGameStateEvent e)
+    {
+        this.curretGameState = e.currentGameState;
+        if (e.currentGameState == GameState.playing) {
+            this.timeString = "Time: ";
+        } else if (e.currentGameState == GameState.preparing) {
+            this.timeString = "Preparing Time: ";
+        }
     }
 
     #endregion
-
-
-    private IEnumerator WaitToNextRound()
-    {
-        yield return new WaitForSeconds(3);
-        EventManager.Instance.Trigger(new ChangeGameStateEvent
-        {
-            currentGameState = GameState.playing,
-        });
-    }
 
     private void OnDestroy()
     {
         if (EventManager.HasInstance()) {
             EventManager.Instance.RemoveListener<OnNextRoundEvent>(this.NextRound);
+            EventManager.Instance.RemoveListener<ChangeGameStateEvent>(this.ChangeGameState);
         }
     }
 
