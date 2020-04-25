@@ -26,6 +26,7 @@ public class ExperienceComponent : MonoBehaviour
         this.currentLevelXp = 0;
 
         EventManager.Instance.Trigger(new OnPlayerLevelUpEvent() { //Maybe change to game finish (or start) when merge with cris
+            newLevel = this.level,
             nextLevelXP = this.nextLevelXp,
             shouldTriggerVFX = false,
         });
@@ -75,6 +76,7 @@ public class ExperienceComponent : MonoBehaviour
         this.nextLevelXp = GetXPByLevel(this.level);
 
         EventManager.Instance.Trigger(new OnPlayerLevelUpEvent() {
+            newLevel = this.level,
             nextLevelXP = this.nextLevelXp,
         });
 

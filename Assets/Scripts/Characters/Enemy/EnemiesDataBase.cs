@@ -11,7 +11,7 @@ public class EnemiesDataBase
             moveSpeed = 12,
             distanceStaticAttack = 15,
             distanceMovingAttack = 30,
-            xpToDrop = 5,
+            xpToDrop = 50,
         },
         new EnemyData {
             hitsToDie = 2,
@@ -19,7 +19,7 @@ public class EnemiesDataBase
             moveSpeed = 10,
             distanceStaticAttack = 20,
             distanceMovingAttack = 40,
-            xpToDrop = 10,
+            xpToDrop = 50,
         },
         new EnemyData {
             hitsToDie = 3,
@@ -27,7 +27,7 @@ public class EnemiesDataBase
             moveSpeed = 5,
             distanceStaticAttack = 30,
             distanceMovingAttack = 50,
-            xpToDrop = 15,
+            xpToDrop = 50,
         }
     };
 }
