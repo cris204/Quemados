@@ -42,17 +42,19 @@ public class CanvasManager : MonoBehaviour
 
     private void Start()
     {
-        EventManager.Instance.AddListener<GameFinishEvent>(this.OnGameFinish);
+        EventManager.Instance.AddListener<ChangeGameStateEvent>(this.ChangeGameState);
         EventManager.Instance.AddListener<OnNextRoundEvent>(this.NextRound);
         EventSystem.current.SetSelectedGameObject(this.playButton);
     }
 
     #region Events
-    private void OnGameFinish(GameFinishEvent e)
+    private void ChangeGameState(ChangeGameStateEvent e)
     {
-        this.endGameContainer.SetActive(true);
-        this.resultText.text = e.isWinner ? "Winner" : "Defeat";
-        EventSystem.current.SetSelectedGameObject(continueButton);
+        if (e.currentGameState == GameState.ended) {
+            this.endGameContainer.SetActive(true);
+            this.resultText.text = "Game Finished";
+            EventSystem.current.SetSelectedGameObject(continueButton);
+        }
     }
     public void NextRound(OnNextRoundEvent e)
     {
@@ -83,7 +85,7 @@ public class CanvasManager : MonoBehaviour
     private void OnDestroy()
     {
         if (EventManager.HasInstance()) {
-            EventManager.Instance.RemoveListener<GameFinishEvent>(this.OnGameFinish);
+            EventManager.Instance.RemoveListener<ChangeGameStateEvent>(this.ChangeGameState);
             EventManager.Instance.RemoveListener<OnNextRoundEvent>(this.NextRound);
         }
     }

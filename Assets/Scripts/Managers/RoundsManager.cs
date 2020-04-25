@@ -85,6 +85,7 @@ public class RoundsManager : MonoBehaviour
         if (this.enemiesKilled >= this.totalEnemiesRound) {
 
             EventManager.Instance.Trigger(new OnNextRoundEvent());
+            this.roundsCount++;
             this.SetNextRound();
         }
     }
@@ -97,7 +98,7 @@ public class RoundsManager : MonoBehaviour
         this.totalEnemiesRound = Env.INITIAL_ENEMIES_ROUND + (this.roundsCount * Env.PLUS_ENEMIES_PER_ROUND);
         this.enemiesToSpawnCount++;
         this.enemySpawnCurrentTime = 0;
-        this.roundsCount++;
+
     }
 
     #region Events
@@ -110,6 +111,9 @@ public class RoundsManager : MonoBehaviour
     private void ChangeGameState(ChangeGameStateEvent e)
     {
         this.currentGameState = e.currentGameState;
+        if (e.currentGameState == GameState.ended) {
+            this.roundsCount = 0;
+        }
     }
 
     #endregion
