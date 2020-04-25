@@ -24,6 +24,11 @@ public class CanvasManager : MonoBehaviour
     public TextMeshProUGUI resultText;
     public GameObject continueButton;
 
+    [Header("Rounds")]
+    public GameObject finishRoundContainer;
+
+    [Header("Timer")]
+    public TextMeshProUGUI timerTxt;
 
     private void Awake()
     {
@@ -37,18 +42,37 @@ public class CanvasManager : MonoBehaviour
 
     private void Start()
     {
-        EventManager.Instance.AddListener<GameFinishEvent>(this.OnGameFinish);
+        EventManager.Instance.AddListener<ChangeGameStateEvent>(this.ChangeGameState);
+        EventManager.Instance.AddListener<OnNextRoundEvent>(this.NextRound);
         EventSystem.current.SetSelectedGameObject(this.playButton);
     }
 
     #region Events
-    private void OnGameFinish(GameFinishEvent e)
+    private void ChangeGameState(ChangeGameStateEvent e)
     {
-        this.endGameContainer.SetActive(true);
-        this.resultText.text = e.isWinner ? "Winner" : "Defeat";
-        EventSystem.current.SetSelectedGameObject(continueButton);
+        if (e.currentGameState == GameState.ended) {
+            this.endGameContainer.SetActive(true);
+            this.resultText.text = "Game Finished";
+            EventSystem.current.SetSelectedGameObject(continueButton);
+        }
+    }
+    public void NextRound(OnNextRoundEvent e)
+    {
+        this.finishRoundContainer.SetActive(true);
+        StartCoroutine(this.TurnOffRoundContainer());
+    }
+    #endregion
+    public void ChangeTimer(string currentTime)
+    {
+        this.timerTxt.text = currentTime;
     }
 
+    #region Coroutines
+    public IEnumerator TurnOffRoundContainer()
+    {
+        yield return new WaitForSeconds(0.5f);
+        this.finishRoundContainer.SetActive(false);
+    }
     #endregion
 
     //Calling ByButton
@@ -61,7 +85,8 @@ public class CanvasManager : MonoBehaviour
     private void OnDestroy()
     {
         if (EventManager.HasInstance()) {
-            EventManager.Instance.RemoveListener<GameFinishEvent>(this.OnGameFinish);
+            EventManager.Instance.RemoveListener<ChangeGameStateEvent>(this.ChangeGameState);
+            EventManager.Instance.RemoveListener<OnNextRoundEvent>(this.NextRound);
         }
     }
 

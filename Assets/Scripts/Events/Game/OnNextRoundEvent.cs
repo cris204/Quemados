@@ -2,5 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StartGameEvent : GlobalEvent
-{}
+public class OnNextRoundEvent : GlobalEvent
+{
+
+}
