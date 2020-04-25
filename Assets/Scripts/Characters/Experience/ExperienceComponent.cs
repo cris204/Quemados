@@ -84,7 +84,7 @@ public class ExperienceComponent : MonoBehaviour
 
     private int GetXPByLevel(int level)
     {
-        int xp = Mathf.CeilToInt(Mathf.Log(level, 3) + 20);
+        int xp = Mathf.CeilToInt(Mathf.Pow(level, 2) + 20);
         return xp;
     }
 }
