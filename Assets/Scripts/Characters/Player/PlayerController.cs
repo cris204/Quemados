@@ -32,6 +32,15 @@ public class PlayerController : MonoBehaviour
         this.playerAnim = this.GetComponent<Animator>();
         this.aimDirection = new Vector3(aimDistanceFromCenter,0,0);
         this.cameraMain = Camera.main;
+
+        EventManager.Instance.AddListener<KilledEnemyEvent>(this.OnkillEnemy);
+    }
+
+    private void OnDestroy()
+    {
+        if (EventManager.HasInstance()) {
+            EventManager.Instance.RemoveListener<KilledEnemyEvent>(this.OnkillEnemy);
+        }
     }
 
     private void Start()
@@ -90,7 +99,7 @@ public class PlayerController : MonoBehaviour
             this.Movement();
             this.Aiming();
 
-            if (Actions.shoot.WasPressed) {
+            if (Actions.shoot.IsPressed) {
                 this.Shoot();
             }
             if (Actions.dash) {
@@ -194,4 +203,11 @@ public class PlayerController : MonoBehaviour
 
     #endregion
 
+    #region Experience
+    private void OnkillEnemy(KilledEnemyEvent e)
+    {
+        int newXp = Mathf.Max(0, this.components.Experience.GetCurrentCumulativeXP() + e.enemyData.xpToDrop);
+        this.components.Experience.GiveXP(newXp);
+    }
+    #endregion
 }

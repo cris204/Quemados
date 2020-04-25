@@ -47,26 +47,26 @@ public class BasicTrowBallBehaviour : PowersBehaviour
         CharacterComponents component = other.GetComponent<CharacterComponents>();
         if(component != null) {
             if(component != this.attacker && component.character != this.characterThrew) {
-                this.Collided();
+                this.Collided(other);
             }
         } else {
             this.Destroy();
         }
     }
 
-    private void Collided()
+    private void Collided(Collider other)
     {
         this.collider.enabled = false;
         this.isMoving = false;
         this.rigidbody.velocity = Vector3.zero;
-        this.CreateEffect();
+        this.CreateEffect(other.transform.position);
     }
 
-    private void CreateEffect()
+    private void CreateEffect(Vector3 position)
     {
         BasicThrowBallEffect prefab = (BasicThrowBallEffect)ResourcesManager.Instance.GetPowerEffectPrefab(this.powerType);
         this.effectPrefab = Instantiate(prefab.gameObject);
-        this.effectPrefab.transform.localPosition = this.transform.localPosition;
+        this.effectPrefab.transform.position = position;
         this.m_Effect = this.effectPrefab.GetComponent<BasicThrowBallEffect>();
         this.m_Effect.InitEffect(PowersDataBase.GetPowerDataByType(this.powerType), this.attacker);
         this.Destroy();
