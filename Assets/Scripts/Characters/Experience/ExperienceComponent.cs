@@ -5,7 +5,7 @@ using UnityEngine;
 public class ExperienceComponent : MonoBehaviour
 {
     private int nextLevelXp = 0;
-    private int currentCumulativeXp = 0;
+    private int currentLevelXp = 0;
 
     private int level = 1;
     private int maxLevel = 100;
@@ -23,7 +23,7 @@ public class ExperienceComponent : MonoBehaviour
         this.level = 1;
         this.nextLevelXp = GetXPByLevel(this.level);
         this.xpPoints = 0;
-        this.currentCumulativeXp = 0;
+        this.currentLevelXp = 0;
 
         EventManager.Instance.Trigger(new OnPlayerLevelUpEvent() { //Maybe change to game finish (or start) when merge with cris
             nextLevelXP = this.nextLevelXp,
@@ -33,7 +33,7 @@ public class ExperienceComponent : MonoBehaviour
 
     public int GetCurrentCumulativeXP()
     {
-        return this.currentCumulativeXp;
+        return this.currentLevelXp;
     }
 
     public void GiveXP(int newValue)
@@ -41,16 +41,20 @@ public class ExperienceComponent : MonoBehaviour
         if (this.level >= this.maxLevel)
             return;
 
-        this.currentCumulativeXp = newValue;
+        this.currentLevelXp = newValue;
 
-        EventManager.Instance.Trigger(new OnPlayerXPUpdatedEvent {
-            newXpValue = this.currentCumulativeXp,
-        });
 
-        if(this.currentCumulativeXp >= this.nextLevelXp) {
-            int remainXP = this.currentCumulativeXp - this.nextLevelXp;
-            this.GiveXP(remainXP);
+        if(this.currentLevelXp >= this.nextLevelXp) {
+            int remainXP = this.currentLevelXp - this.nextLevelXp;
+            EventManager.Instance.Trigger(new OnPlayerXPUpdatedEvent {
+                newXpValue = this.currentLevelXp - remainXP,
+            });
             this.LevelUp();
+            this.GiveXP(remainXP);
+        } else {
+            EventManager.Instance.Trigger(new OnPlayerXPUpdatedEvent {
+                newXpValue = this.currentLevelXp,
+            });
         }
     }
 
@@ -67,6 +71,7 @@ public class ExperienceComponent : MonoBehaviour
             return;
         }
         this.xpPoints += this.xpPointsPerLevel;
+        this.currentLevelXp = 0;
         this.nextLevelXp = GetXPByLevel(this.level);
 
         EventManager.Instance.Trigger(new OnPlayerLevelUpEvent() {

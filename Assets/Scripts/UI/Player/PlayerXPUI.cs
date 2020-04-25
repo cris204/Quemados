@@ -58,6 +58,7 @@ public class PlayerXPUI : MonoBehaviour
     public void UpdateXP(int newValue)
     {
         ChangeValuesAnimated newChange = new ChangeValuesAnimated(this.currentXp, newValue);
+        this.currentXp = newValue;
         this.animatedChanges.Enqueue(newChange);
 
         if (!this.isAnimating) {
@@ -83,13 +84,9 @@ public class PlayerXPUI : MonoBehaviour
 
         //Image
         float xSize = 0;
-        if(this.lastLevelXP <= 0) {
-            xSize = 0;
-        } else {
-            xSize = ((finalValue - this.lastLevelXP) / (this.nextLevelXP - this.lastLevelXP));
-        }
+        xSize = (((float)finalValue - 0) / ((float)this.nextLevelXP - 0));
         Vector2 newSize = this.fillerImageRT.sizeDelta;
-        newSize.x = xSize * 100;
+        newSize.x = xSize * IMAGE_MAX_SIZE;
         Tween imageTween = this.fillerImageRT.DOSizeDelta(newSize, 0.5f);
 
         xpSequence.OnComplete(delegate ()
