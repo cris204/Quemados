@@ -13,6 +13,24 @@ public class ExperienceComponent : MonoBehaviour
     private int xpPointsPerLevel = 1;
     private int xpPoints = 0;
 
+    private void Start()
+    {
+        this.ResetStats();
+    }
+
+    private void ResetStats()
+    {
+        this.level = 1;
+        this.nextLevelXp = GetXPByLevel(this.level);
+        this.xpPoints = 0;
+        this.currentCumulativeXp = 0;
+
+        EventManager.Instance.Trigger(new OnPlayerLevelUpEvent() { //Maybe change to game finish (or start) when merge with cris
+            nextLevelXP = this.nextLevelXp,
+            shouldTriggerVFX = false,
+        });
+    }
+
     public int GetCurrentCumulativeXP()
     {
         return this.currentCumulativeXp;
@@ -25,7 +43,13 @@ public class ExperienceComponent : MonoBehaviour
 
         this.currentCumulativeXp = newValue;
 
+        EventManager.Instance.Trigger(new OnPlayerXPUpdatedEvent {
+            newXpValue = this.currentCumulativeXp,
+        });
+
         if(this.currentCumulativeXp >= this.nextLevelXp) {
+            int remainXP = this.currentCumulativeXp - this.nextLevelXp;
+            this.GiveXP(remainXP);
             this.LevelUp();
         }
     }
@@ -45,12 +69,15 @@ public class ExperienceComponent : MonoBehaviour
         this.xpPoints += this.xpPointsPerLevel;
         this.nextLevelXp = GetXPByLevel(this.level);
 
-        EventManager.Instance.Trigger(new OnPlayerLevelUpEvent());
+        EventManager.Instance.Trigger(new OnPlayerLevelUpEvent() {
+            nextLevelXP = this.nextLevelXp,
+        });
+
     }
 
     private int GetXPByLevel(int level)
     {
-        int xp = Mathf.CeilToInt(Mathf.Log(level, 3));
+        int xp = Mathf.CeilToInt(Mathf.Log(level, 3) + 20);
         return xp;
     }
 }

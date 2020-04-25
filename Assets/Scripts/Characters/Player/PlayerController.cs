@@ -99,7 +99,7 @@ public class PlayerController : MonoBehaviour
             this.Movement();
             this.Aiming();
 
-            if (Actions.shoot.WasPressed) {
+            if (Actions.shoot.IsPressed) {
                 this.Shoot();
             }
             if (Actions.dash) {
