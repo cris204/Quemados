@@ -16,14 +16,21 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float speed=300;
     public PlayerActions Actions { get; set; }
 
-    [Header("Aim")]
+    [Header("Shoot and Aim")]
     public GameObject aimGO;
     private float aimDistanceFromCenter = 12f;
     private Vector3 aimDirection;
     private Vector3 mousePos;
     private Camera cameraMain;
     public float offset; //Probs we need offset in X and Z, in this case I use the same cuz I added the same offset in SpawnPoint position
-
+    private WaitForSeconds attackDelay;
+    private float attackCoolDown=0.2f;
+    private bool canAttack = true;
+    public bool CanAttack
+    {
+        get => this.canAttack;
+        set => this.canAttack = value;
+    }
     private bool isDashing;
 
     void Awake()
@@ -55,7 +62,7 @@ public class PlayerController : MonoBehaviour
                 Env.IS_USING_KEYBOARD = false;
             }
         }
-
+        this.attackDelay = new WaitForSeconds(this.attackCoolDown);
         this.components.character = this.character;
         this.components.SuscribeDeathAction(this.Death);
         this.SetDashAction();
@@ -129,8 +136,13 @@ public class PlayerController : MonoBehaviour
 
     #region Shoot and Aim
     private void Shoot()
-    {
+    {   if (!this.CanAttack)
+                 return;
+
+        this.CanAttack = false;
         this.components.Attack.Attack(PowerType.BasicThrowBall, this.components, this.aimDirection.normalized); //(playerController.aim.transform.position - transform.position).normalized
+        this.TriggerAnimation("BasicAttack");
+        StartCoroutine(this.AttackCoolDown());
     }
     private void Aiming()
     {
@@ -158,10 +170,17 @@ public class PlayerController : MonoBehaviour
         this.playerAnim.SetFloat("AimSpeedX", this.aimDirection.x);
         this.playerAnim.SetFloat("AimSpeedZ", this.aimDirection.z);
     }
-    #endregion
 
-    #region Death
-    private void Death()
+    private IEnumerator AttackCoolDown()
+    {
+        yield return this.attackDelay;
+        this.CanAttack = true;
+    }
+
+#endregion
+
+#region Death
+private void Death()
     {
         EventManager.Instance.Trigger(new ChangeGameStateEvent
         {
@@ -210,4 +229,13 @@ public class PlayerController : MonoBehaviour
         this.components.Experience.GiveXP(newXp);
     }
     #endregion
+
+    #region TriggerAnimations
+    public void TriggerAnimation(string animationTrigger)
+    {
+        this.playerAnim.SetTrigger(animationTrigger);
+    }
+    
+    #endregion
+
 }
