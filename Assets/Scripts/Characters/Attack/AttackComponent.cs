@@ -5,7 +5,7 @@ using UnityEngine;
 public class AttackComponent : MonoBehaviour
 {
     public int attackPower;
-    public float attackCoolDown;
+    //public float attackCoolDown;
     public GameObject spawnPointGO;
     public CharacterType character;
 
@@ -14,7 +14,7 @@ public class AttackComponent : MonoBehaviour
     public AttackComponent()
     {
         this.attackPower = 10;
-        this.attackCoolDown = 1;
+        //this.attackCoolDown = 1;
     }
 
 

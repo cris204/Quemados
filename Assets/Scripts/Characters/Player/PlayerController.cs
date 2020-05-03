@@ -136,8 +136,9 @@ public class PlayerController : MonoBehaviour
 
     #region Shoot and Aim
     private void Shoot()
-    {   if (!this.CanAttack)
-                 return;
+    {
+        if (!this.CanAttack)
+            return;
 
         this.CanAttack = false;
         this.components.Attack.Attack(PowerType.BasicThrowBall, this.components, this.aimDirection.normalized); //(playerController.aim.transform.position - transform.position).normalized

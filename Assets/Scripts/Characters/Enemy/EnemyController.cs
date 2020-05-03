@@ -10,7 +10,7 @@ public class EnemyController : MonoBehaviour
     private Collider collider;
     private EnemyStatesController states;
     private EnemyData data;
-
+    private Animator enemyAnimator;
     private bool isInit;
 
     private void Awake()
@@ -22,6 +22,7 @@ public class EnemyController : MonoBehaviour
     {
         this.InitStates();
         this.m_Components.Health.SuscribeToDeathAction(this.Death);
+        this.enemyAnimator = GetComponent<Animator>();
     }
 
     private void Init()
@@ -68,4 +69,11 @@ public class EnemyController : MonoBehaviour
         Destroy(this.gameObject);
     }
 
+    #region TriggerAnimations
+    public void TriggerAnimation(string animationTrigger)
+    {
+        this.enemyAnimator.SetTrigger(animationTrigger);
+    }
+
+    #endregion
 }
