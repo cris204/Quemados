@@ -24,7 +24,7 @@ public class PlayerController : MonoBehaviour
     private Camera cameraMain;
     public float offset; //Probs we need offset in X and Z, in this case I use the same cuz I added the same offset in SpawnPoint position
     private WaitForSeconds attackDelay;
-    private float attackCoolDown=0.2f;
+    public float attackCoolDown=0.2f;
     private bool canAttack = true;
     public bool CanAttack
     {
