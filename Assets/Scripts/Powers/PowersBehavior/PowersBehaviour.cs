@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class PowersBehaviour : MonoBehaviour
+public abstract class PowersBehaviour : MonoBehaviour, IPoolable
 {
     public PowerType powerType;
     public CharacterType characterThrew;
@@ -15,6 +15,8 @@ public abstract class PowersBehaviour : MonoBehaviour
 
     protected bool isInit;
     protected bool isMoving;
+
+    public string poolName { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
 
     private void Start()
     {
@@ -29,5 +31,15 @@ public abstract class PowersBehaviour : MonoBehaviour
     protected abstract void Init();
     public abstract void StartAttack(Vector3 direction);
     protected abstract void MovementBehavior();
-    protected abstract void Destroy();
+    public abstract void Destroy();
+    public void GetFromPool()
+    {
+        this.collider.enabled = true;
+    }
+
+    public void ReturnToPool()
+    {
+        PoolManager.Instance.Push(this, poolName);
+    }
+
 }
