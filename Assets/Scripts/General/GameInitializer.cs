@@ -9,5 +9,6 @@ public class GameInitializer : MonoBehaviour
         ResourcesManager.Init();
         OwnSceneLoadManager.Init();
         EventManager.Init();
+        PoolManager.Init();
     }
 }

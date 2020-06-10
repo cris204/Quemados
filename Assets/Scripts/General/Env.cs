@@ -11,4 +11,6 @@
     //Rounds
     public static float TIME_BETWEEN_ROUNDS = 3;
 
+    //Pool Keys
+    public readonly static string POWER_UP_BEHAVIOR_POOL_KEY = "PowerUpBehavior";
 }

@@ -61,9 +61,8 @@ public class AttackComponent : MonoBehaviour
 
         this.CanAttack = false;
         PowersBehaviour power = ResourcesManager.Instance.GetPowerBehaviourPrefab(powerType);
-        GameObject prefab = Instantiate(power.gameObject);
-        prefab.transform.position = this.spawnPointGO.transform.position;
-        PowersBehaviour powerInstantiated = prefab.GetComponent<PowersBehaviour>();
+        PowersBehaviour powerInstantiated = PoolManager.Instance.Pop<PowersBehaviour>(Env.POWER_UP_BEHAVIOR_POOL_KEY + powerType.ToString());
+        powerInstantiated.gameObject.transform.position = this.spawnPointGO.transform.position;
         powerInstantiated.characterThrew = this.character;
         powerInstantiated.SetPower(powerType, attacker);
         powerInstantiated.StartAttack(direction);
@@ -75,5 +74,27 @@ public class AttackComponent : MonoBehaviour
     {
         yield return this.attackDelay;
         this.CanAttack = true;
+    }
+
+    private void InitAllPowerUpsPools()
+    {
+        for (int i = 0; i < PowersDataBase.powers.Count; i++) {
+            PowerType type = PowersDataBase.powers[i].powerType;
+            string poolName = string.Format("{0}{1}", Env.POWER_UP_BEHAVIOR_POOL_KEY, type.ToString());
+            SimplePool<PowersBehaviour> newPool = PoolManager.Instance.GetPool<PowersBehaviour>(poolName);
+            newPool.CreateFunction = (item) => {
+                item.gameObject.SetActive(false);
+                item.poolName = poolName;
+                return item;
+            };
+
+            newPool.OnPush = (item) => {
+                item.Destroy();
+            };
+
+            newPool.OnPop = (item) => {
+                item.GetFromPool();
+            };
+        }
     }
 }
